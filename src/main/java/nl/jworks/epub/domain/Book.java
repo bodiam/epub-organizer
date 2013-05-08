@@ -5,6 +5,7 @@ import com.github.jmkgreen.morphia.annotations.Id;
 import com.github.jmkgreen.morphia.annotations.Reference;
 import com.google.common.base.*;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -38,9 +39,11 @@ public class Book {
     private List<Tag> tags = new ArrayList<Tag>();
 
     @Reference("cover")
+    @DBRef
     private Binary cover;
 
     @Reference("epub")
+    @DBRef
     private Binary epub;
 
 

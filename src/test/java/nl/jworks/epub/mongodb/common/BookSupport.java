@@ -11,15 +11,15 @@ import java.util.Date;
 public class BookSupport {
 
 
-    protected Book createBookWithTitle(String title) {
-        Book book = createBook();
+    protected Book createBookWithTitle(String source, String title) {
+        Book book = createBook(source);
         book.setTitle(title);
         return book;
     }
 
-    protected Book createBook() {
+    protected Book createBook(String source) {
         Book book = new Book();
-        book.setSource("spring");
+        book.setSource(source);
         book.setTitle("Getting started with Grails");
         book.setLanguage("nl");
         book.setIsbn("1430243775");

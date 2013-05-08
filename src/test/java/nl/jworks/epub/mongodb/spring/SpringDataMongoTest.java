@@ -1,9 +1,13 @@
 package nl.jworks.epub.mongodb.spring;
 
 import nl.jworks.epub.domain.Author;
+import nl.jworks.epub.domain.Binary;
 import nl.jworks.epub.domain.Book;
 import nl.jworks.epub.mongodb.common.BookSupport;
+import nl.jworks.epub.mongodb.spring.repository.BinaryRepository;
 import nl.jworks.epub.mongodb.spring.repository.BookRepository;
+import nl.siegmann.epublib.epub.EpubReader;
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,6 +29,13 @@ public class SpringDataMongoTest extends BookSupport {
 
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private BinaryRepository binaryRepository;
+
+    private Book createBook() {
+        return createBook("spring");
+    }
+
 
     @Before
     public void setUp() throws Exception {
@@ -62,9 +75,9 @@ public class SpringDataMongoTest extends BookSupport {
     @Test
     public void listAllBooks() throws Exception {
 
-        Book book1 = createBookWithTitle("Grails programming 101");
-        Book book2 = createBookWithTitle("Getting started with Grails");
-        Book book3 = createBookWithTitle("Grails in Action");
+        Book book1 = createBookWithTitle("spring", "Grails programming 101");
+        Book book2 = createBookWithTitle("spring", "Getting started with Grails");
+        Book book3 = createBookWithTitle("spring", "Grails in Action");
 
         bookRepository.save(Arrays.asList(book1, book2, book3));
 
@@ -124,6 +137,33 @@ public class SpringDataMongoTest extends BookSupport {
 
         assertEquals(1, books.size());
         assertEquals(book, books.get(0));
+    }
+
+    @Test
+    public void insertBookWithBinaryEpub() throws Exception {
+        Book book = createBook();
+
+        File file = new File("src/test/resources/alice-in-wonderland.epub");
+
+        Binary binary = new Binary(FileUtils.readFileToByteArray(file));
+        book.setEpub(binary);
+
+        binaryRepository.save(binary);
+        Book save = bookRepository.save(book);
+
+        Book foundBook = bookRepository.findOne(save.id);
+
+        File outputFile = File.createTempFile("output", ".epub");
+        FileUtils.writeByteArrayToFile(outputFile, foundBook.getEpub().getContents());
+
+        // read epub file
+        EpubReader epubReader = new EpubReader();
+        nl.siegmann.epublib.domain.Book epub = epubReader.readEpub(new FileInputStream(outputFile));
+
+        // print the first title
+        List<String> titles = epub.getMetadata().getTitles();
+
+        assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
     }
 
 

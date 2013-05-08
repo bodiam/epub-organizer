@@ -24,6 +24,10 @@ public class MorphiaTest extends BookSupport {
 
     private Datastore ds;
 
+    private Book createBook() {
+        return createBook("morphia");
+    }
+
     @SuppressWarnings("deprecation")
     @Before
     public void setUp() {
@@ -70,9 +74,9 @@ public class MorphiaTest extends BookSupport {
     @Test
     public void listAllBooks() throws Exception {
 
-        Book book1 = createBookWithTitle("Grails programming 101");
-        Book book2 = createBookWithTitle("Getting started with Grails");
-        Book book3 = createBookWithTitle("Grails in Action");
+        Book book1 = createBookWithTitle("morphia", "Grails programming 101");
+        Book book2 = createBookWithTitle("morphia", "Getting started with Grails");
+        Book book3 = createBookWithTitle("morphia", "Grails in Action");
 
         ds.save(book1, book2, book3);
 
