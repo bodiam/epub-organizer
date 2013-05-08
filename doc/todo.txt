@@ -1,0 +1,24 @@
+
+                                                Morphia           Spring              By hand
+Books
+- Insert book with one author                       x               x
+- Insert book with many authors                     x               x
+- List all books                                    x               x
+- Find book by title                                x               x
+- Find book by author lastname                      x               x
+- Find book by author firstname & lastname          x               x
+- Find book by author                               x               x
+- Find book by complex query                        x               x
+    (after 1980, pages less than 400)
+- Insert book with binary epub                      x               -
+- Insert book with binary epub and cover            x
+- Add cover to book                                 x
+- Remove book                                       x
+
+Author
+- Add picture to author
+
+Tags
+- Add tags to book
+- Remove tag from book
+- Find book by tag

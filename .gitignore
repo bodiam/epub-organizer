@@ -1,0 +1,6 @@
+classes
+.DS_Store
+.gradle/
+.idea/
+epub-organizer-gradle.iml
+output.epub
