@@ -21,15 +21,11 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(classes = SpringDataMongoConfig.class)
 public class SpringDataMongoTest extends BookSupport {
 
-    //    private AnnotationConfigApplicationContext ctx;
     @Autowired
     private BookRepository bookRepository;
 
     @Before
     public void setUp() throws Exception {
-//        ctx = new AnnotationConfigApplicationContext(SpringDataMongoTest.class.getPackage().getName());
-//        bookRepository = ctx.getBean(BookRepository.class);
-
         List<Book> books = bookRepository.findAll();
 
         for (Book book : books) {
