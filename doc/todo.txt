@@ -11,7 +11,8 @@ Books
 - Find book by complex query                        x               x
     (after 1980, pages less than 400)
 - Insert book with binary epub                      x               x
-- Insert book with binary epub and cover            x               -
+- Insert book with cover                            x               x
+- Insert book with binary epub and cover            x
 - Add cover to book                                 x
 - Remove book                                       x
 

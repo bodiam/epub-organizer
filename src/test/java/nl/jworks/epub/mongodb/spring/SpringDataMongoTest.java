@@ -166,6 +166,30 @@ public class SpringDataMongoTest extends BookSupport {
         assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
     }
 
+    @Test
+    public void insertBookWithCover() throws Exception {
+        Book book = createBook();
+
+        File file = new File("src/test/resources/32x32.jpg");
+        long originalLength = file.length();
+
+        Binary binary = new Binary(FileUtils.readFileToByteArray(file));
+        book.setCover(binary);
+
+        binaryRepository.save(binary);
+        Book save = bookRepository.save(book);
+
+        Book foundBook = bookRepository.findOne(save.id);
+
+        File outputFile = File.createTempFile("output", ".jpg");
+        FileUtils.writeByteArrayToFile(outputFile, foundBook.getCover().getContents());
+
+        long copyLength = file.length();
+
+        assertEquals(originalLength, copyLength);
+    }
+
+
 
     private Book saveDefaultBook() {
         Book book = createBook();

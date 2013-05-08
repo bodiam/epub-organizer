@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MorphiaTest extends BookSupport {
 
@@ -163,10 +164,21 @@ public class MorphiaTest extends BookSupport {
         Book book = createBook();
 
         File file = new File("src/test/resources/32x32.jpg");
+        long originalLength = file.length();
         Binary binary = new Binary(FileUtils.readFileToByteArray(file));
         book.setCover(binary);
 
         ds.save(binary, book);
+
+        Book foundBook = ds.find(Book.class).get();
+
+        File outputFile = File.createTempFile("output", ".jpg");
+        FileUtils.writeByteArrayToFile(outputFile, foundBook.getCover().getContents());
+
+        long copyLength = file.length();
+
+        assertEquals(originalLength, copyLength);
+
     }
 
     @Test
