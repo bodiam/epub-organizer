@@ -3,6 +3,7 @@ package nl.jworks.epub.mongodb.morphia;
 import com.github.jmkgreen.morphia.Datastore;
 import com.github.jmkgreen.morphia.Morphia;
 import com.github.jmkgreen.morphia.query.Query;
+import com.github.jmkgreen.morphia.query.UpdateOperations;
 import nl.jworks.epub.domain.Author;
 import nl.jworks.epub.domain.Binary;
 import nl.jworks.epub.domain.Book;
@@ -18,6 +19,8 @@ import java.io.FileInputStream;
 import java.util.Date;
 import java.util.List;
 
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
@@ -207,6 +210,27 @@ public class MorphiaTest extends BookSupport {
         List<String> titles = result.getMetadata().getTitles();
 
         assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
+    }
+
+    @Test
+    public void addCoverToBook() throws Exception {
+        saveDefaultBook();
+        Book book = ds.find(Book.class).get();
+
+        assertNull(book.getCover());
+
+        File coverFile = new File("src/test/resources/32x32.jpg");
+        Binary cover = new Binary(FileUtils.readFileToByteArray(coverFile));
+        book.setCover(cover);
+
+        ds.save(cover, book);
+
+        // https://code.google.com/p/morphia/wiki/Updating
+        UpdateOperations<Book> updateOperations = ds.createUpdateOperations(Book.class).set("cover", cover);
+        ds.update(ds.find(Book.class), updateOperations);
+        Book savedAgain = ds.find(Book.class).get();
+
+        assertNotNull(savedAgain.getCover());
     }
 
     @Test
