@@ -1,11 +1,11 @@
 # Epub Organizer 
 
-This project is created to compare different MongoDB clients and mappers. It currently consists of the following frameworks:
+This project is created to compare different [MongoDB](http://www.mongodb.org) clients and mappers. It currently consists of the following frameworks:
 
-* `Spring Data - MongoDB` - Spring Data powered ORM.
-* `Morphia` - A mature but sleeping ORM. I've used a fork.
-* `MongoClient` - The Java driver for MongoDB
-* `MongoJack` - If I can get it to work :)
+* `Spring Data - MongoDB` - [Spring Data](http://www.springsource.org/spring-data/mongodb) powered ORM.
+* `Morphia` - A mature but sleeping ORM. I've used a [fork](https://github.com/jmkgreen/morphia).
+* `MongoClient` - The [Java driver](http://docs.mongodb.org/ecosystem/tutorial/getting-started-with-java-driver/) for MongoDB
+* `MongoJack` - A MongoDB [wrapper/mapper](http://http://mongojack.org/) based on [Jackson](http://wiki.fasterxml.com/JacksonHome).
 
 The ORM mappers / clients are organized in packages, and share some common structures. 
 

@@ -1,15 +1,15 @@
 
-                                                Morphia           Spring              By hand
+                                                Morphia           Spring              By hand       MongoJack
 Books
-- Insert book with one author                       x               x                   x
-- Insert book with many authors                     x               x
-- Find book by id                                   -
-- List all books                                    x               x
-- Find book by title                                x               x
-- Find book by author lastname                      x               x
-- Find book by author firstname & lastname          x               x
-- Find book by author                               x               x
-- Find book by complex query                        x               x
+- Insert book with one author                       x               x                   x               x
+- Insert book with many authors                     x               x                                   x
+- Find book by id                                   x               -                                   x
+- List all books                                    x               x                                   x
+- Find book by title                                x               x                                   x
+- Find book by author lastname                      x               x                                   x
+- Find book by author firstname & lastname          x               x                                   x
+- Find book by author                               x               x                                   x
+- Find book by complex query                        x               x                                   x
     (after 1980, pages less than 400)
 - Insert book with binary epub                      x               x
 - Insert book with cover                            x               x

@@ -95,6 +95,7 @@ public class SpringDataMongoTest extends BookSupport {
 
     @Test
     public void findBooksByTitle() {
+        saveDefaultBook();
         assertNotNull(bookRepository.findByTitle("Getting started with Grails"));
     }
 

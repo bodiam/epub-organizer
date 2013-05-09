@@ -22,7 +22,8 @@ public class Book {
 
     @Id
     @org.springframework.data.annotation.Id     // spring
-    public String id;
+    @javax.persistence.Id                       // mongojack
+    public ObjectId id;
 
     private String source;
 

@@ -121,7 +121,11 @@ public class MorphiaTest extends BookSupport {
     public void findBooksByAuthor() {
         saveDefaultBook();
 
-        assertNotNull(ds.find(Book.class).field("authors").equal(new Author("Graeme", "Rocher")).get());
+        Book book = ds.find(Book.class).field("authors").equal(new Author("Graeme", "Rocher")).get();
+        assertNotNull(book);
+        Author author = book.getAuthors().get(0);
+        assertEquals("Graeme", author.getFirstName());
+        assertEquals("Rocher", author.getLastName());
     }
 
     @Test

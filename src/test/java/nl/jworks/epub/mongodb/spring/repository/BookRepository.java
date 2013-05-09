@@ -2,6 +2,7 @@ package nl.jworks.epub.mongodb.spring.repository;
 
 import nl.jworks.epub.domain.Author;
 import nl.jworks.epub.domain.Book;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ import java.util.List;
  * An example repository interface that inherits the default CRUD methods from {@link MongoRepository}.
  */
 @Repository("bookRepository")
-public interface BookRepository extends MongoRepository<Book, String> {
+public interface BookRepository extends MongoRepository<Book, ObjectId> {
 
     List<Book> findByTitle(String title);
 
