@@ -1,7 +1,7 @@
 
                                                 Morphia           Spring              By hand
 Books
-- Insert book with one author                       x               x
+- Insert book with one author                       x               x                   x
 - Insert book with many authors                     x               x
 - List all books                                    x               x
 - Find book by title                                x               x
@@ -23,3 +23,11 @@ Tags
 - Add tags to book
 - Remove tag from book
 - Find book by tag
+
+
+Queries:
+- Find authors with more than 2 books
+-
+
+Operatons:
+- Create index on Author

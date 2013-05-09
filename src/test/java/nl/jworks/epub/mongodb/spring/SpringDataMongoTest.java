@@ -6,7 +6,6 @@ import nl.jworks.epub.domain.Book;
 import nl.jworks.epub.mongodb.common.BookSupport;
 import nl.jworks.epub.mongodb.spring.repository.BinaryRepository;
 import nl.jworks.epub.mongodb.spring.repository.BookRepository;
-import nl.jworks.epub.mongodb.util.BookViewer;
 import nl.siegmann.epublib.epub.EpubReader;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
@@ -31,13 +30,13 @@ public class SpringDataMongoTest extends BookSupport {
 
     @Autowired
     private BookRepository bookRepository;
+
     @Autowired
     private BinaryRepository binaryRepository;
 
     private Book createBook() {
         return createBook("spring");
     }
-
 
     @Before
     public void setUp() throws Exception {
