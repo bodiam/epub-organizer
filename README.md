@@ -11,6 +11,18 @@ The ORM mappers / clients are organized in packages, and share some common struc
 
 Running `gradle test` should run all the test with default settings against your local database, and it should not fail. It works on my machine! ;)
 
+### What does it do?
+
+There's a fix amount of tests, which run over all implementations. The test are different in implementation, but not in intent. The goal of this
+project was to find out which framework was easier to work with, and to experience if all requirements were possible using each framework (they are!).
+
+So, some operations which are tested:
+* CRUD, including one to many relations
+* Complex queryes
+* Binary data (no GridFS)
+
+And more!
+
 ### Why did you do this?
 
 Because I asked a question on Stackoverflow, but it was closed due to being to subjective. So I had to find out myself. Feel free to fork / clone / copy and use however you'd like.

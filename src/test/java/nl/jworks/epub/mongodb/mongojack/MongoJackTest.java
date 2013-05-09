@@ -6,8 +6,11 @@ import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteConcern;
 import nl.jworks.epub.domain.Author;
+import nl.jworks.epub.domain.Binary;
 import nl.jworks.epub.domain.Book;
 import nl.jworks.epub.mongodb.common.BookSupport;
+import nl.siegmann.epublib.epub.EpubReader;
+import org.apache.commons.io.FileUtils;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,16 +19,21 @@ import org.mongojack.DBQuery;
 import org.mongojack.JacksonDBCollection;
 import org.mongojack.WriteResult;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 
 public class MongoJackTest extends BookSupport {
 
     private DBCollection booksCollection;
+    private DBCollection binariesCollection;
     private JacksonDBCollection<Book,ObjectId> books;
+    private JacksonDBCollection<Binary,ObjectId> binaries;
 
     private Book createBook() {
         return createBook("mongojack");
@@ -38,10 +46,11 @@ public class MongoJackTest extends BookSupport {
         mongoClient.setWriteConcern(WriteConcern.JOURNALED);
 
         DB db = mongoClient.getDB("epub");
-        booksCollection = db.getCollection("booksCollection");
+        booksCollection = db.getCollection("books");
+        binariesCollection = db.getCollection("binaries");
 
         books = JacksonDBCollection.wrap(booksCollection, Book.class, ObjectId.class);
-        
+        binaries = JacksonDBCollection.wrap(binariesCollection, Binary.class, ObjectId.class);
     }
 
 
@@ -143,6 +152,107 @@ public class MongoJackTest extends BookSupport {
         assertEquals(book, books.get(0));
     }
 
+    @Test
+    public void insertBookWithBinaryEpub() throws Exception {
+        Book book = createBook();
+
+        File file = new File("src/test/resources/alice-in-wonderland.epub");
+
+        Binary binary = new Binary(FileUtils.readFileToByteArray(file));
+        book.setEpub(binary);
+
+        binaries.insert(binary);
+        WriteResult<Book, ObjectId> writeResult = books.insert(book);
+
+        Book foundBook = books.findOneById(writeResult.getSavedId());
+
+        File outputFile = File.createTempFile("output", ".epub");
+        FileUtils.writeByteArrayToFile(outputFile, foundBook.getEpub().getContents());
+
+        // read epub file
+        EpubReader epubReader = new EpubReader();
+        nl.siegmann.epublib.domain.Book epub = epubReader.readEpub(new FileInputStream(outputFile));
+
+        // print the first title
+        List<String> titles = epub.getMetadata().getTitles();
+
+        assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
+    }
+
+
+    @Test
+    public void insertBookWithCover() throws Exception {
+        Book book = createBook();
+
+        File file = new File("src/test/resources/32x32.jpg");
+        long originalLength = file.length();
+
+        Binary binary = new Binary(FileUtils.readFileToByteArray(file));
+        book.setCover(binary);
+
+        binaries.insert(binary);
+        WriteResult<Book, ObjectId> writeResult = books.insert(book);
+
+        Book foundBook = books.findOneById(writeResult.getSavedId());
+
+        File outputFile = File.createTempFile("output", ".jpg");
+        FileUtils.writeByteArrayToFile(outputFile, foundBook.getCover().getContents());
+
+        long copyLength = file.length();
+
+//        BookViewer.view(foundBook);
+        assertEquals(originalLength, copyLength);
+    }
+
+    @Test
+    public void insertBookWithBinaryEpubAndCover() throws Exception {
+        Book book = createBook();
+
+        File epubFile = new File("src/test/resources/alice-in-wonderland.epub");
+        Binary epub = new Binary(FileUtils.readFileToByteArray(epubFile));
+        book.setEpub(epub);
+
+        File coverFile = new File("src/test/resources/32x32.jpg");
+        Binary cover = new Binary(FileUtils.readFileToByteArray(coverFile));
+        book.setCover(cover);
+
+        binaries.insert(cover, epub);
+
+        WriteResult<Book, ObjectId> writeResult = books.insert(book);
+
+        Book foundBook = books.findOneById(writeResult.getSavedId());
+
+        FileUtils.writeByteArrayToFile(new File("output.epub"), foundBook.getEpub().getContents());
+
+        // read epub file
+        EpubReader epubReader = new EpubReader();
+        nl.siegmann.epublib.domain.Book result = epubReader.readEpub(new FileInputStream(new File("output.epub")));
+
+        // print the first title
+        List<String> titles = result.getMetadata().getTitles();
+
+        assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
+    }
+
+    /*
+    @Test
+    public void addCoverToBook() throws Exception {
+        Book book = saveDefaultBook();
+
+        assertNull(book.getCover());
+
+        Book foundBook = books.findOneById(book.id);
+        File coverFile = new File("src/test/resources/32x32.jpg");
+        Binary cover = new Binary(FileUtils.readFileToByteArray(coverFile));
+        foundBook.setCover(cover);
+
+        books.findAndModify();
+
+        binaries.save(cover);
+        Book savedAgain = books.insert(foundBook).getSavedObject();
+
+        assertNotNull(savedAgain.getCover());
+    }*/
 
 
 

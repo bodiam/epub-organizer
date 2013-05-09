@@ -242,17 +242,17 @@ public class MorphiaTest extends BookSupport {
     public void removeBook() throws Exception {
         Book book = createBook();
 
-        String id = (String)ds.save(book).getId();
+        ObjectId id = (ObjectId)ds.save(book).getId();
 
         // There's some hacking going one: when using Morphia, these queries don't work
         // when the id is a String. Making the id an ObjectId
-        Book entity = ds.get(Book.class, new ObjectId(id)); // doesn't work?
+        Book entity = ds.get(Book.class, id); // doesn't work?
 
         System.out.println(entity);
         Book result = ds.find(Book.class).get();
         assertNotNull(result);
 
-        ds.delete(Book.class, new ObjectId(id));
+        ds.delete(Book.class, id);
 
         assertNull(ds.find(Book.class).get());
     }
