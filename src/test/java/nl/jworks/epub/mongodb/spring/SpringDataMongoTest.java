@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -222,7 +223,22 @@ public class SpringDataMongoTest extends BookSupport {
         assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
     }
 
+    @Test
+    public void addCoverToBook() throws Exception {
+        Book book = saveDefaultBook();
 
+        assertNull(book.getCover());
+
+        Book foundBook = bookRepository.findOne(book.id);
+        File coverFile = new File("src/test/resources/32x32.jpg");
+        Binary cover = new Binary(FileUtils.readFileToByteArray(coverFile));
+        foundBook.setCover(cover);
+
+        binaryRepository.save(cover);
+        Book savedAgain = bookRepository.save(foundBook);
+
+        assertNotNull(savedAgain.getCover());
+    }
 
 
     private Book saveDefaultBook() {
