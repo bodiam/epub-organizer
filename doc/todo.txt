@@ -3,6 +3,7 @@
 Books
 - Insert book with one author                       x               x                   x
 - Insert book with many authors                     x               x
+- Find book by id                                   -
 - List all books                                    x               x
 - Find book by title                                x               x
 - Find book by author lastname                      x               x

@@ -13,13 +13,14 @@ import java.util.Date;
 import java.util.List;
 
 @Entity("books")               // morphia
-@Document(collection="books")  // spring
+//@Document(collection="books")  // spring
 public class Book {
 
 //    @Id                                         // morphia
 //    @org.springframework.data.annotation.Id     // spring
 //    ObjectId id;
 
+    @Id
     @org.springframework.data.annotation.Id     // spring
     public String id;
 
@@ -39,11 +40,11 @@ public class Book {
     private List<Tag> tags = new ArrayList<Tag>();
 
     @Reference("cover")
-    @DBRef
+//    @DBRef
     private Binary cover;
 
     @Reference("epub")
-    @DBRef
+//    @DBRef
     private Binary epub;
 
 

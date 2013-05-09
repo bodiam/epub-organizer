@@ -1,16 +1,16 @@
 package nl.jworks.epub.mongodb.morphia;
 
 import com.github.jmkgreen.morphia.Datastore;
+import com.github.jmkgreen.morphia.Key;
 import com.github.jmkgreen.morphia.Morphia;
 import com.github.jmkgreen.morphia.query.Query;
 import com.github.jmkgreen.morphia.query.UpdateOperations;
-import nl.jworks.epub.domain.Author;
-import nl.jworks.epub.domain.Binary;
-import nl.jworks.epub.domain.Book;
-import nl.jworks.epub.domain.Tag;
+import nl.jworks.epub.domain.*;
 import nl.jworks.epub.mongodb.common.BookSupport;
 import nl.siegmann.epublib.epub.EpubReader;
 import org.apache.commons.io.FileUtils;
+import org.bson.types.ObjectId;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -131,6 +131,7 @@ public class MorphiaTest extends BookSupport {
         Query q1 = ds.createQuery(Book.class).filter("publicationDate >", createDate("01-01-1980")).filter("numberOfPages <", 400);
         Query q2 = ds.find(Book.class).field("publicationDate").greaterThan(createDate("01-01-1980")).field("numberOfPages").lessThan(400);
 
+        // debug
 //        String s1 = ((QueryImpl) q1).getQueryObject().toString();
 
         assertNotNull(q1.get());
@@ -237,16 +238,20 @@ public class MorphiaTest extends BookSupport {
     public void removeBook() throws Exception {
         Book book = createBook();
 
-        ds.save(book);
+        String id = (String)ds.save(book).getId();
+
+        // There's some hacking going one: when using Morphia, these queries don't work
+        // when the id is a String. Making the id an ObjectId
+        Book entity = ds.get(Book.class, new ObjectId(id)); // doesn't work?
+
+        System.out.println(entity);
         Book result = ds.find(Book.class).get();
         assertNotNull(result);
 
-        ds.delete(book);
+        ds.delete(Book.class, new ObjectId(id));
 
         assertNull(ds.find(Book.class).get());
     }
-
-
 
     @Test
     public void insertBookWithManyTags() throws Exception {
