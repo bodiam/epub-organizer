@@ -6,6 +6,7 @@ import nl.jworks.epub.domain.Book;
 import nl.jworks.epub.mongodb.common.BookSupport;
 import nl.jworks.epub.mongodb.spring.repository.BinaryRepository;
 import nl.jworks.epub.mongodb.spring.repository.BookRepository;
+import nl.jworks.epub.mongodb.util.BookViewer;
 import nl.siegmann.epublib.epub.EpubReader;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
@@ -186,8 +187,41 @@ public class SpringDataMongoTest extends BookSupport {
 
         long copyLength = file.length();
 
+//        BookViewer.view(foundBook);
         assertEquals(originalLength, copyLength);
     }
+
+
+    @Test
+    public void insertBookWithBinaryEpubAndCover() throws Exception {
+        Book book = createBook();
+
+        File epubFile = new File("src/test/resources/alice-in-wonderland.epub");
+        Binary epub = new Binary(FileUtils.readFileToByteArray(epubFile));
+        book.setEpub(epub);
+
+        File coverFile = new File("src/test/resources/32x32.jpg");
+        Binary cover = new Binary(FileUtils.readFileToByteArray(coverFile));
+        book.setCover(cover);
+
+        binaryRepository.save(cover);
+        binaryRepository.save(epub);
+        Book save = bookRepository.save(book);
+
+        Book foundBook = bookRepository.findOne(save.id);
+
+        FileUtils.writeByteArrayToFile(new File("output.epub"), foundBook.getEpub().getContents());
+
+        // read epub file
+        EpubReader epubReader = new EpubReader();
+        nl.siegmann.epublib.domain.Book result = epubReader.readEpub(new FileInputStream(new File("output.epub")));
+
+        // print the first title
+        List<String> titles = result.getMetadata().getTitles();
+
+        assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
+    }
+
 
 
 
