@@ -1,0 +1,5 @@
+epub-organizer
+==============
+
+Organizes epubs
+
