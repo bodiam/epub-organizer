@@ -14,7 +14,7 @@ Books
 - Insert book with cover                            x               x
 - Insert book with binary epub and cover            x               x
 - Add cover to book                                 x               x
-- Remove book                                       x               
+- Remove book                                       x               x
 
 Author
 - Add picture to author

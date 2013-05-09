@@ -240,6 +240,19 @@ public class SpringDataMongoTest extends BookSupport {
         assertNotNull(savedAgain.getCover());
     }
 
+    @Test
+    public void removeBook() throws Exception {
+        Book book = saveDefaultBook();
+
+        Book result = bookRepository.findOne(book.id);
+        assertNotNull(result);
+
+        bookRepository.delete(book);
+
+        assertNull(bookRepository.findOne(book.id));
+    }
+
+
 
     private Book saveDefaultBook() {
         Book book = createBook();
