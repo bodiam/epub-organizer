@@ -32,3 +32,15 @@ Queries:
 
 Operatons:
 - Create index on Author
+
+
+
+
+
+
+TODO:
+- Fix tests: in case of P. L. Travers, use Travers as lastname.
+- Refactor fileextractsupport. Should create a text util class, to parse author tokens (separated by ',', and &'s).
+- Add metadata parser for author
+- Choose right author based on highest score
+- Springify

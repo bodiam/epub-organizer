@@ -1,19 +1,19 @@
 package nl.jworks.epub.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.jmkgreen.morphia.annotations.Entity;
 import com.github.jmkgreen.morphia.annotations.Id;
 import com.github.jmkgreen.morphia.annotations.Reference;
-import com.google.common.base.*;
+import com.google.common.base.Objects;
 import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity("books")               // morphia
-//@Document(collection="books")  // spring
+@JsonIgnoreProperties({"firstAuthor"}) // mongojack
+@Entity("books")                       // morphia
+//@Document(collection="books")        // spring
 public class Book {
 
 //    @Id                                         // morphia
@@ -34,11 +34,13 @@ public class Book {
     private String publisher;
     private Date publicationDate;
 
+    // private String dewey; // ddc
+
     private int numberOfPages;
     private int fileSizeInKb;
 
-    private List<Author> authors = new ArrayList<Author>();
-    private List<Tag> tags = new ArrayList<Tag>();
+    private List<Author> authors = new ArrayList<>();
+    private List<Tag> tags = new ArrayList<>();
 
     @Reference("cover")
 //    @DBRef
@@ -55,6 +57,14 @@ public class Book {
 
     public List<Author> getAuthors() {
         return authors;
+    }
+
+    public Author getFirstAuthor() {
+        if(authors.isEmpty()) {
+            return null;
+        } else {
+            return authors.get(0);
+        }
     }
 
     public String getTitle() {

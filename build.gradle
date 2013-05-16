@@ -33,6 +33,8 @@ dependencies {
 
 
     testCompile group: 'junit', name: 'junit', version: '4.+'
+    testCompile 'org.easymock:easymock:3.1'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
 }
 
 task initProject() << {

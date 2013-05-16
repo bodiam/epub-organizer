@@ -1,6 +1,5 @@
 package nl.jworks.epub.mongodb.mongojack;
 
-import com.github.jmkgreen.morphia.query.Query;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
@@ -14,7 +13,6 @@ import org.apache.commons.io.FileUtils;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
-import org.mongojack.DBCursor;
 import org.mongojack.DBQuery;
 import org.mongojack.JacksonDBCollection;
 import org.mongojack.WriteResult;
@@ -24,8 +22,6 @@ import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 
 public class MongoJackTest extends BookSupport {
