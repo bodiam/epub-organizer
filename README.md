@@ -1,5 +1,8 @@
 # Epub Organizer 
 
+[![Build Status](https://travis-ci.org/bodiam/epub-organizer.png?branch=master)](https://travis-ci.org/bodiam/epub-organizer)  
+[![Build Status](https://drone.io/github.com/bodiam/epub-organizer/status.png)](https://drone.io/github.com/bodiam/epub-organizer/latest)
+
 This project is created to compare different [MongoDB](http://www.mongodb.org) clients and mappers. It currently consists of the following frameworks:
 
 * `Spring Data - MongoDB` - [Spring Data](http://www.springsource.org/spring-data/mongodb) powered ORM.
