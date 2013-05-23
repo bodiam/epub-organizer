@@ -8,6 +8,10 @@ repositories {
     }
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.6'
+}
+
 dependencies {
     /** Morphia */
     compile group: 'com.github.jmkgreen.morphia', name: 'morphia', version: '1.2.3'
