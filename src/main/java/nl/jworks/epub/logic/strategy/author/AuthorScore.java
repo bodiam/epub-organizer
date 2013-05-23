@@ -1,21 +1,22 @@
-package nl.jworks.epub.logic.names;
+package nl.jworks.epub.logic.strategy.author;
 
 import nl.jworks.epub.domain.Author;
+import nl.jworks.epub.logic.strategy.Score;
 
 import java.util.List;
 
 /**
  * Simple scoring algorithm.
  */
-public class AuthorScore extends Score<List<Author>>{
+public class AuthorScore extends Score<List<Author>> {
 
-    public AuthorScore(List<Author> source) {
-        super(source);
+    public AuthorScore(List<Author> value, Class source) {
+        super(value, source);
     }
 
     @Override
-    public double getValue() {
-        List<Author> authors = getSource();
+    public double getScore() {
+        List<Author> authors = getValue();
 
         if(authors.isEmpty()) {
             return 0;

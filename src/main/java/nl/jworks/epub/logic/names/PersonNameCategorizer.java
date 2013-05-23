@@ -15,6 +15,7 @@ public class PersonNameCategorizer {
     private static List<String> firstNames = Arrays.asList(
             "Erik",
             "Brian",
+            "Davenport",
             "Gary",
             "Lieke",
             "Andrew",
@@ -32,7 +33,10 @@ public class PersonNameCategorizer {
             "Davis",
             "Miller",
             "Abbott",
-            "Wilson"
+            "Wilson",
+            "Travers",
+            "Dumas",
+            "Adams"
     );
 
     /**
@@ -65,7 +69,7 @@ public class PersonNameCategorizer {
         double score = names.indexOf(name);
 
         if(score > 0) {
-            score = score / names.size();
+            score = score / (double) names.size();
         }
 
         return score;

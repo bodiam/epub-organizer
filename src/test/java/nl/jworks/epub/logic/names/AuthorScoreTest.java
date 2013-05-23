@@ -1,6 +1,7 @@
 package nl.jworks.epub.logic.names;
 
 import nl.jworks.epub.domain.Author;
+import nl.jworks.epub.logic.strategy.author.AuthorScore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -14,7 +15,7 @@ public class AuthorScoreTest {
     public void testFullAuthorScore() throws Exception {
         AuthorScore score = build(new Author("Erik", "Pragt"));
 
-        assertThat(score.getValue(), is(1.0));
+        assertThat(score.getScore(), is(1.0));
     }
 
     @Test
@@ -22,24 +23,24 @@ public class AuthorScoreTest {
         // todo: should be lower than full (0.8, 0.9?)
         AuthorScore score = build(new Author("E.", "Pragt"));
 
-        assertThat(score.getValue(), is(1.0));
+        assertThat(score.getScore(), is(1.0));
     }
 
     @Test
     public void testLastNameAuthorScore() throws Exception {
         AuthorScore score = build(new Author(null, "Pragt"));
 
-        assertThat(score.getValue(), is(0.75));
+        assertThat(score.getScore(), is(0.75));
     }
 
     @Test
     public void testFirstNameAuthorScore() throws Exception {
         AuthorScore score = build(new Author("Erik", null));
 
-        assertThat(score.getValue(), is(0.5));
+        assertThat(score.getScore(), is(0.5));
     }
 
     private AuthorScore build(Author author) {
-        return new AuthorScore(Arrays.asList(author));
+        return new AuthorScore(Arrays.asList(author), AuthorScoreTest.class);
     }
 }

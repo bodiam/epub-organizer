@@ -33,6 +33,7 @@ public class Book {
     private String summary;
     private String publisher;
     private Date publicationDate;
+    private Date dateAdded = new Date();
 
     // private String dewey; // ddc
 
@@ -53,6 +54,10 @@ public class Book {
 
     public void addAuthor(Author author) {
         this.authors.add(author);
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
     }
 
     public List<Author> getAuthors() {
@@ -113,6 +118,10 @@ public class Book {
 
     public void setPublicationDate(Date publicationDate) {
         this.publicationDate = publicationDate;
+    }
+
+    public Date getDateAdded() {
+        return dateAdded;
     }
 
     public String getPublisher() {

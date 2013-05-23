@@ -1,19 +1,27 @@
 package nl.jworks.epub.logic.names;
 
 import nl.jworks.epub.domain.Book;
-import nl.siegmann.epublib.epub.EpubReader;
+import nl.jworks.epub.logic.strategy.author.*;
+import nl.jworks.epub.logic.strategy.title.TitleScorer;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 public class BookProducer {
 
+
     public Book produce(File input) throws IOException {
 
-        EpubReader epubReader = new EpubReader();
-        nl.siegmann.epublib.domain.Book book = epubReader.readEpub(new FileInputStream(input));
+        Book book = new Book();
 
-        return null;
+        book.setAuthors(new AuthorScorer().determineBestScore(input).getValue());
+        book.setSource("import");
+        book.setTitle(new TitleScorer().determineBestScore(input).getValue());
+
+
+
+        return book;
+
     }
+
 }

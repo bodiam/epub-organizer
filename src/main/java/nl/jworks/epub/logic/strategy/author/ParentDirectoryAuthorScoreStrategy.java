@@ -1,6 +1,7 @@
-package nl.jworks.epub.logic.names;
+package nl.jworks.epub.logic.strategy.author;
 
 import nl.jworks.epub.domain.Author;
+import nl.jworks.epub.logic.names.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -8,15 +9,15 @@ import java.util.List;
 
 /**
  * Extracts the Author from a directory name and calculates a score for the result.
- *
+ * <p/>
  * For example, it will translate the following:
- *
+ * <p/>
  * Christopher, Matt => Matt Christopher
  */
-public class ParentDirectoryAuthorExtractor extends FileExtractSupport implements AuthorExtractor {
+public class ParentDirectoryAuthorScoreStrategy implements AuthorScoreStrategy {
 
     @Override
-    public Score<List<Author>> scoreAuthors(File source) {
+    public AuthorScore score(File source) {
 
         String dirName = source.getParentFile().getName();
         String[] rawTokens = splitAuthorPairTokens(dirName);
@@ -27,13 +28,16 @@ public class ParentDirectoryAuthorExtractor extends FileExtractSupport implement
         for (String token : tokens) {
             String[] rawNameTokens = splitAuthorNameTokens(token);
             String[] nameTokens = trim(rawNameTokens);
-            Name name = new PersonNameCategorizer().categorize(nameTokens);
-            Author author = new Author(name.getFirstName(), name.getLastName());
 
-            authors.add(author);
+            if (nameTokens.length == 2) {
+                Name name = new PersonNameCategorizer().categorize(nameTokens);
+                Author author = new Author(name.getFirstName(), name.getLastName());
+
+                authors.add(author);
+            }
         }
 
-        return new AuthorScore(authors);
+        return new AuthorScore(authors, ParentDirectoryAuthorScoreStrategy.class);
     }
 
     private String[] trim(String[] input) {

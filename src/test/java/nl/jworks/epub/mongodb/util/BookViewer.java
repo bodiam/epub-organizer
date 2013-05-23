@@ -46,6 +46,7 @@ public class BookViewer {
 //        contentPane.add(new JLabel("Summary : " + book.getSummary()));
         contentPane.add(new JLabel("Publisher : " + book.getPublisher()));
         contentPane.add(new JLabel("Publication date : " + book.getPublicationDate()));
+        contentPane.add(new JLabel("Date added : " + book.getDateAdded()));
     }
 
     private static ImageIcon readImage(byte[] imageData) {

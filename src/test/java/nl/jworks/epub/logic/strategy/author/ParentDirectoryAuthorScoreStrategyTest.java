@@ -1,6 +1,7 @@
-package nl.jworks.epub.logic.names;
+package nl.jworks.epub.logic.strategy.author;
 
 import nl.jworks.epub.domain.Author;
+import nl.jworks.epub.logic.strategy.Score;
 import org.easymock.EasyMockSupport;
 import org.junit.Test;
 
@@ -10,7 +11,7 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static org.easymock.EasyMock.expect;
 
-public class ParentDirectoryAuthorExtractorTest extends EasyMockSupport {
+public class ParentDirectoryAuthorScoreStrategyTest extends EasyMockSupport {
 
     @Test
     public void testExtractAuthorFromDirectoryName() throws Exception {
@@ -22,10 +23,10 @@ public class ParentDirectoryAuthorExtractorTest extends EasyMockSupport {
 
         replayAll();
 
-        Score<List<Author>> authorScores = new ParentDirectoryAuthorExtractor().scoreAuthors(mock);
+        Score<List<Author>> authorScores = new ParentDirectoryAuthorScoreStrategy().score(mock);
 
-        List<Author> authors = authorScores.getSource();
-        double value = authorScores.getValue();
+        List<Author> authors = authorScores.getValue();
+        double value = authorScores.getScore();
 
         verifyAll();
 
@@ -43,10 +44,10 @@ public class ParentDirectoryAuthorExtractorTest extends EasyMockSupport {
 
         replayAll();
 
-        Score<List<Author>> authorScores = new ParentDirectoryAuthorExtractor().scoreAuthors(mock);
+        Score<List<Author>> authorScores = new ParentDirectoryAuthorScoreStrategy().score(mock);
 
-        List<Author> authors = authorScores.getSource();
-        double value = authorScores.getValue();
+        List<Author> authors = authorScores.getValue();
+        double value = authorScores.getScore();
 
         verifyAll();
 
