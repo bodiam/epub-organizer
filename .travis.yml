@@ -3,3 +3,8 @@ jdk:
   - oraclejdk7
   - openjdk7
 services: mongodb
+
+notifications:
+  email:
+    - erik.pragt@gmail.com
+    - enric.ballo@gmail.com
