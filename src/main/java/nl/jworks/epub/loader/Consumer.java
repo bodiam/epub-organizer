@@ -2,12 +2,16 @@ package nl.jworks.epub.loader;
 
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.epub.EpubReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 public class Consumer implements Runnable {
+
+    private static Logger log = LoggerFactory.getLogger(Consumer.class);
 
     private String name;
     private Broker<File> broker;
@@ -23,14 +27,14 @@ public class Consumer implements Runnable {
             File data = broker.get();
 
             while (broker.continueProducing || data != null) {
-                System.out.println("Consumer " + this.name + " processed data from broker: " + data);
+                log.debug("Consumer {} processed data {} from broker", this.name, data);
 
                 processEpub(data);
 
                 data = broker.get();
             }
 
-            System.out.println("Comsumer " + this.name + " finished its job; terminating.");
+            log.debug("Comsumer " + this.name + " finished its job; terminating.");
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
@@ -41,20 +45,20 @@ public class Consumer implements Runnable {
             EpubReader epubReader = new EpubReader();
             Book book = epubReader.readEpub(new FileInputStream(data));
 
-            System.out.println("**************** " + data + " **************************");
-            System.out.println("Authors: "+ book.getMetadata().getAuthors());
-            System.out.println("Dates: " +book.getMetadata().getDates());
-            System.out.println("Descriptions: " +book.getMetadata().getDescriptions());
-            System.out.println("First title: " + book.getMetadata().getFirstTitle());
-            System.out.println("Format: " +book.getMetadata().getFormat());
-            System.out.println("Identifiers: " +book.getMetadata().getIdentifiers());
-            System.out.println("Language: " + book.getMetadata().getLanguage());
-            System.out.println("Other properties: " + book.getMetadata().getOtherProperties());
-            System.out.println("Publishers: " +book.getMetadata().getPublishers());
-            System.out.println("Rights: "+ book.getMetadata().getRights());
-            System.out.println("Subjects: "+ book.getMetadata().getSubjects());
-            System.out.println("Types: " + book.getMetadata().getTypes());
-            System.out.println("Titles: " + book.getMetadata().getTitles());
+            log.debug("**************** " + data + " **************************");
+            log.debug("Authors: "+ book.getMetadata().getAuthors());
+            log.debug("Dates: " +book.getMetadata().getDates());
+            log.debug("Descriptions: " +book.getMetadata().getDescriptions());
+            log.debug("First title: " + book.getMetadata().getFirstTitle());
+            log.debug("Format: " +book.getMetadata().getFormat());
+            log.debug("Identifiers: " +book.getMetadata().getIdentifiers());
+            log.debug("Language: " + book.getMetadata().getLanguage());
+            log.debug("Other properties: " + book.getMetadata().getOtherProperties());
+            log.debug("Publishers: " +book.getMetadata().getPublishers());
+            log.debug("Rights: "+ book.getMetadata().getRights());
+            log.debug("Subjects: "+ book.getMetadata().getSubjects());
+            log.debug("Types: " + book.getMetadata().getTypes());
+            log.debug("Titles: " + book.getMetadata().getTitles());
         } catch (IOException e) {
 
         }

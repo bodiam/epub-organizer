@@ -1,10 +1,12 @@
 package nl.jworks.epub.loader;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.TimeUnit;
+import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ArrayBlockingQueue;
+
+@Component
 public class Broker<T> {
-    public ArrayBlockingQueue<T> queue = new ArrayBlockingQueue<T>(100);
+    public ArrayBlockingQueue<T> queue = new ArrayBlockingQueue<>(100);
     public Boolean continueProducing = Boolean.TRUE;
 
     public void put(T data) throws InterruptedException {

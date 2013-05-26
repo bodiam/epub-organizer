@@ -1,7 +1,8 @@
 package nl.jworks.epub.loader;
 
 import nl.jworks.epub.util.Debug;
-import nl.jworks.epub.util.DebugView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,16 +13,20 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class Producer implements Runnable {
 
+    private static Logger logger = LoggerFactory.getLogger(Producer.class);
+    
+    private String location;
     private Broker<File> broker;
 
-    public Producer(Broker<File> broker) {
+    public Producer(String location, Broker<File> broker) {
+        this.location = location;
         this.broker = broker;
     }
 
     @Override
     public void run() {
         try {
-            Path startingDir = Paths.get("/Users/erikp/Downloads/Torrents/Complete");
+            Path startingDir = Paths.get(location);
             String pattern = "*.epub";
 
             Finder finder = new Finder(pattern);
@@ -29,7 +34,7 @@ public class Producer implements Runnable {
             finder.done();
 
             this.broker.continueProducing = Boolean.FALSE;
-            System.out.println("Producer finished its job; terminating.");
+            logger.info("Producer finished its job; terminating.");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -50,7 +55,7 @@ public class Producer implements Runnable {
             Path name = file.getFileName();
             if (name != null && matcher.matches(name)) {
                 numMatches++;
-                System.out.println("Producer got file " + file);
+                logger.debug("Producer got file " + file);
 
                 try {
                     broker.put(file.toFile());
@@ -68,7 +73,7 @@ public class Producer implements Runnable {
 
         // Prints the total number of matches to standard out.
         void done() {
-            System.out.println("Matched: " + numMatches);
+            logger.debug("Matched: " + numMatches);
         }
 
         // Invoke the pattern matching method on each file.

@@ -248,7 +248,6 @@ public class MorphiaTest extends BookSupport {
         // when the id is a String. Making the id an ObjectId
         Book entity = ds.get(Book.class, id); // doesn't work?
 
-        System.out.println(entity);
         Book result = ds.find(Book.class).get();
         assertNotNull(result);
 

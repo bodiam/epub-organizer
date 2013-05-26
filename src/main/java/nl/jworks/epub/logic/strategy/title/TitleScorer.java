@@ -2,6 +2,8 @@ package nl.jworks.epub.logic.strategy.title;
 
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Doubles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
 
 public class TitleScorer {
 
+    private static Logger log = LoggerFactory.getLogger(TitleScorer.class);
 
     private List<TitleScoreStrategy> strategies = Arrays.asList(
             new FileNameTitleScoreStrategy(),
@@ -22,7 +25,7 @@ public class TitleScorer {
         for (TitleScoreStrategy strategy : strategies) {
             TitleScore titleScore = strategy.score(input);
 
-            System.out.println(titleScore.getSource() + " : " + titleScore.getValue() + " = " + titleScore.getScore());
+            log.debug("{} : {} = {}", titleScore.getSource(), titleScore.getValue(), titleScore.getScore());
 
             scores.add(titleScore);
         }

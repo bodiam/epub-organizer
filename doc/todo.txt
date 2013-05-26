@@ -46,3 +46,5 @@ TODO:
 - Springify
 - Make titlescorer and authorscorer generic
 - Fix testBookProducerTest: should detected firstname: W. H., and lastname 'Davenport Adams'
+
+- Replace Start.threadPool with @Async stuff

@@ -2,6 +2,8 @@ package nl.jworks.epub.logic.strategy.author;
 
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Doubles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AuthorScorer {
+
+    private static Logger log = LoggerFactory.getLogger(AuthorScorer.class);
 
     private List<AuthorScoreStrategy> authorStrategies = Arrays.asList(
             new FileNameAuthorScoreStrategy(),
@@ -22,7 +26,7 @@ public class AuthorScorer {
         for (AuthorScoreStrategy strategy : authorStrategies) {
             AuthorScore authorScore = strategy.score(input);
 
-            System.out.println(authorScore.getSource() + " : " + authorScore.getValue() + " = " + authorScore.getScore());
+            log.debug("{} : {} = {}", authorScore.getSource(), authorScore.getValue(), authorScore.getScore());
 
             scores.add(authorScore);
         }
