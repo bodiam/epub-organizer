@@ -43,8 +43,11 @@ TODO:
 - Rename *extractor to *strategy FileNameAuthorStrategy (better, I guess?)          DONE
 - Add metadata parser for author                                                    DONE
 - Choose right author based on highest score                                        DONE
-- Springify
-- Make titlescorer and authorscorer generic
+- Springify                                                                         DONE
+- Make titlescorer and authorscorer and languagescoring generic
 - Fix testBookProducerTest: should detected firstname: W. H., and lastname 'Davenport Adams'
 
-- Replace Start.threadPool with @Async stuff
+
+
+- Replace Start.threadPool with @Async stuff??
+- Upgrade to Java 8?
