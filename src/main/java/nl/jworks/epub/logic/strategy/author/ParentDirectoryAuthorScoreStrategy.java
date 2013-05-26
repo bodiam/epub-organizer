@@ -2,9 +2,12 @@ package nl.jworks.epub.logic.strategy.author;
 
 import nl.jworks.epub.domain.Author;
 import nl.jworks.epub.logic.names.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,28 +19,35 @@ import java.util.List;
  */
 public class ParentDirectoryAuthorScoreStrategy implements AuthorScoreStrategy {
 
+    private static Logger log = LoggerFactory.getLogger(ParentDirectoryAuthorScoreStrategy.class);
+
     @Override
     public AuthorScore score(File source) {
+        try {
+            String dirName = source.getParentFile().getName();
+            String[] rawTokens = splitAuthorPairTokens(dirName);
+            String[] tokens = trim(rawTokens);
 
-        String dirName = source.getParentFile().getName();
-        String[] rawTokens = splitAuthorPairTokens(dirName);
-        String[] tokens = trim(rawTokens);
+            List<Author> authors = new ArrayList<>();
 
-        List<Author> authors = new ArrayList<>();
+            for (String token : tokens) {
+                String[] rawNameTokens = splitAuthorNameTokens(token);
+                String[] nameTokens = trim(rawNameTokens);
 
-        for (String token : tokens) {
-            String[] rawNameTokens = splitAuthorNameTokens(token);
-            String[] nameTokens = trim(rawNameTokens);
+                if (nameTokens.length == 2) {
+                    Name name = new PersonNameCategorizer().categorize(nameTokens);
+                    Author author = new Author(name.getFirstName(), name.getLastName());
 
-            if (nameTokens.length == 2) {
-                Name name = new PersonNameCategorizer().categorize(nameTokens);
-                Author author = new Author(name.getFirstName(), name.getLastName());
-
-                authors.add(author);
+                    authors.add(author);
+                }
             }
-        }
 
-        return new AuthorScore(authors, ParentDirectoryAuthorScoreStrategy.class);
+            return new AuthorScore(authors, ParentDirectoryAuthorScoreStrategy.class);
+        } catch (Exception e) {
+            log.error("Could not determine score for {}", source);
+
+            return new AuthorScore(Collections.<Author>emptyList(), ParentDirectoryAuthorScoreStrategy.class);
+        }
     }
 
     private String[] trim(String[] input) {

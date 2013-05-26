@@ -1,6 +1,8 @@
 package nl.jworks.epub.loader;
 
 import nl.jworks.epub.configuration.ApplicationConfiguration;
+import nl.jworks.epub.persistence.spring.BinaryRepository;
+import nl.jworks.epub.persistence.spring.BookRepository;
 import nl.jworks.epub.util.DebugView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,8 @@ public class Start {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(ApplicationConfiguration.class);
         ctx.refresh();
+
+        System.out.println(ctx.getBean(BinaryRepository.class));
 
         Start start = ctx.getBean(Start.class);
         start.start();

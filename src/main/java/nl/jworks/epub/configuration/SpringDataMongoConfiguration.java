@@ -1,8 +1,9 @@
-package nl.jworks.epub.mongodb.spring;
+package nl.jworks.epub.configuration;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 import com.mongodb.WriteConcern;
+import nl.jworks.epub.persistence.spring.BookRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,12 +15,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import java.net.UnknownHostException;
 
 @Configuration
-@EnableMongoRepositories
-@ComponentScan(basePackages = {
-        "nl.jworks.epub.mongodb.spring.repository",
-        "nl.jworks.epub.mongodb.spring.service" }
-)
-public class SpringDataMongoConfig {
+@EnableMongoRepositories(basePackageClasses = {BookRepository.class})
+public class SpringDataMongoConfiguration {
 
     @Bean
     public Mongo mongo() throws UnknownHostException, MongoException {
@@ -27,8 +24,7 @@ public class SpringDataMongoConfig {
     }
 
     @Bean
-    public SimpleMongoDbFactory mongoDbFactory() throws UnknownHostException,
-            MongoException {
+    public SimpleMongoDbFactory mongoDbFactory() throws UnknownHostException, MongoException {
 //		UserCredentials userCredentials = new UserCredentials("dev", "devpassword");
         SimpleMongoDbFactory factory = new SimpleMongoDbFactory(mongo(), "epub"
 //				userCredentials

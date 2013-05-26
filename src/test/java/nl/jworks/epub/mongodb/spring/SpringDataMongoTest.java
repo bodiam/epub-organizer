@@ -6,6 +6,7 @@ import nl.jworks.epub.domain.Book;
 import nl.jworks.epub.mongodb.common.BookSupport;
 import nl.jworks.epub.mongodb.spring.repository.BinaryRepository;
 import nl.jworks.epub.mongodb.spring.repository.BookRepository;
+import nl.jworks.epub.mongodb.spring.service.TestBookService;
 import nl.siegmann.epublib.epub.EpubReader;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
@@ -32,6 +33,9 @@ public class SpringDataMongoTest extends BookSupport {
     private BookRepository bookRepository;
 
     @Autowired
+    private TestBookService testBookService;
+
+    @Autowired
     private BinaryRepository binaryRepository;
 
     private Book createBook() {
@@ -52,6 +56,17 @@ public class SpringDataMongoTest extends BookSupport {
         Book book = createBook();
 
         Book savedBook = bookRepository.save(book);
+
+        Book result = bookRepository.findOne(savedBook.id);
+        assertEquals(book, result);
+        assertEquals(result.getAuthors().size(), 1);
+    }
+
+    @Test
+    public void insertBookWithOneAuthorUsingService() {
+        Book book = createBook();
+
+        Book savedBook = testBookService.save(book);
 
         Book result = bookRepository.findOne(savedBook.id);
         assertEquals(book, result);

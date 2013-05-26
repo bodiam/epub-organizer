@@ -3,6 +3,9 @@ package nl.jworks.epub.logic.strategy.author;
 import nl.jworks.epub.domain.Author;
 import nl.jworks.epub.logic.names.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.impl.SimpleLog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import java.io.File;
@@ -25,17 +28,28 @@ import static org.apache.commons.lang3.StringUtils.substring;
  */
 public class FileNameAuthorScoreStrategy implements AuthorScoreStrategy {
 
+    private static Logger log = LoggerFactory.getLogger(FileNameAuthorScoreStrategy.class);
+
     public static final String SEPARATOR = "-";
     public static final Pattern NAME_PATTERN = Pattern.compile("([a-zA-Z\\.]+)");
 
     @Override
     public AuthorScore score(File source) {
 
-        String fileName = source.getName();
+        return new AuthorScore(getAuthors(source), FileNameAuthorScoreStrategy.class);
+    }
 
-        Author author = extractAuthorFromFileName(fileName);
+    private List<Author> getAuthors(File source) {
+        try {
+            String fileName = source.getName();
 
-        return new AuthorScore(Arrays.asList(author), FileNameAuthorScoreStrategy.class);
+            Author author = extractAuthorFromFileName(fileName);
+
+            return Arrays.asList(author);
+        } catch (Exception e) {
+            log.error("Could not determine score for {}", source);
+            return Collections.emptyList();
+        }
     }
 
     private Author extractAuthorFromFileName(String fileName) {

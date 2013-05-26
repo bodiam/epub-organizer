@@ -6,6 +6,7 @@ import com.github.jmkgreen.morphia.annotations.Id;
 import com.github.jmkgreen.morphia.annotations.Reference;
 import com.google.common.base.Objects;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @JsonIgnoreProperties({"firstAuthor"}) // mongojack
 @Entity("books")                       // morphia
-//@Document(collection="books")        // spring
+@Document(collection="books")          // spring
 public class Book {
 
 //    @Id                                         // morphia

@@ -4,25 +4,35 @@ package nl.jworks.epub.configuration;
 import nl.jworks.epub.loader.Broker;
 import nl.jworks.epub.loader.Consumer;
 import nl.jworks.epub.loader.Producer;
+import nl.jworks.epub.logic.names.BookProducer;
+import nl.jworks.epub.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.*;
 
 import java.io.File;
 import java.util.UUID;
 
 @Configuration
-@ComponentScan(basePackages = { "nl.jworks.epub" })
+@ComponentScan(basePackages = {
+        "nl.jworks.epub",
+        "nl.jworks.epub.persistence.spring"
+})
+@Import(SpringDataMongoConfiguration.class)
 public class ApplicationConfiguration {
 
     @Autowired
     private Broker<File> broker;
 
-    @Bean @Scope("prototype")
+    @Autowired
+    private BookProducer bookProducer;
+
+    @Autowired
+    private BookService bookService;
+
+    @Bean
+    @Scope("prototype")
     public Consumer consumer() {
-        return new Consumer(UUID.randomUUID().toString(), broker);
+        return new Consumer(UUID.randomUUID().toString(), broker, bookProducer, bookService);
     }
 
     @Bean

@@ -38,6 +38,10 @@ public class AuthorScorer {
             }
         };
 
-        return o.max(scores);
+        AuthorScore max = o.max(scores);
+
+        log.info("Best author {} with score {} determined using {}", max.getValue(), max.getScore(), max.getSource().getSimpleName());
+
+        return max;
     }
 }

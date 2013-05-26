@@ -1,6 +1,8 @@
 package nl.jworks.epub.logic.names;
 
 import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.List;
  *
  */
 public class PersonNameCategorizer {
+
+    private static Logger log = LoggerFactory.getLogger(PersonNameCategorizer.class);
 
     private static List<String> firstNames = Arrays.asList(
             "Erik",
@@ -53,7 +57,9 @@ public class PersonNameCategorizer {
         } else if (scoreFirstNameLastName < scoreLastNameFirstName) {
             return new Name(names[1], names[0]);
         } else {
-            throw new IllegalArgumentException("Could not determine unique score for names " + names[0] + " and " + names[1]);
+            log.info("Could not determine name in {}", names);
+            return new Name(null, null);
+//            throw new IllegalArgumentException("Could not determine unique score for names " + names[0] + " and " + names[1]);
         }
     }
 
