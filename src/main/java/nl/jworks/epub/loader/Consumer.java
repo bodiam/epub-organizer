@@ -5,6 +5,7 @@ import nl.jworks.epub.logic.names.BookProducer;
 import nl.jworks.epub.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,8 @@ public class Consumer implements Runnable {
     public void run() {
         try {
             File data = broker.get();
+
+            MDC.put("book-filename", data.getName());
 
             while (broker.continueProducing || data != null) {
                 log.debug("Consumer {} processed data {} from broker", this.name, data);

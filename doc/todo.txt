@@ -47,6 +47,7 @@ TODO:
 - Make titlescorer and authorscorer and languagescoring generic
 - Fix testBookProducerTest: should detected firstname: W. H., and lastname 'Davenport Adams'
 
+- Create sifting appender per book
 
 
 - Replace Start.threadPool with @Async stuff??

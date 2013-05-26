@@ -28,12 +28,12 @@
              desired discriminator type is
              ch.qos.logback.classic.sift.MDCBasedDiscriminator -->
         <discriminator>
-            <key>book-filename</key>
+            <key>userid</key>
             <defaultValue>unknown</defaultValue>
         </discriminator>
         <sift>
-            <appender name="FILE-${book-filename}" class="ch.qos.logback.core.FileAppender">
-                <file>logs/book-${book-filename}.log</file>
+            <appender name="FILE-${userid}" class="ch.qos.logback.core.FileAppender">
+                <file>${userid}.log</file>
                 <append>false</append>
                 <layout class="ch.qos.logback.classic.PatternLayout">
                     <pattern>%d [%thread] %level %mdc %logger{35} - %msg%n</pattern>
