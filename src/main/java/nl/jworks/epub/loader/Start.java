@@ -38,8 +38,6 @@ public class Start {
         ctx.register(ApplicationConfiguration.class);
         ctx.refresh();
 
-        System.out.println(ctx.getBean(BinaryRepository.class));
-
         Start start = ctx.getBean(Start.class);
         start.start();
     }
