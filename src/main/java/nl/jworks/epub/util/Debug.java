@@ -8,7 +8,7 @@ public class Debug {
 
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
-    private int sleepInMilliSeconds = 5_000;
+    private int sleepInMilliSeconds = 0;
     private int matches;
 
     private static Debug debug = new Debug();

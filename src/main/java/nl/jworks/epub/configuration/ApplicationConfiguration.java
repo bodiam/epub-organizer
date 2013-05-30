@@ -37,6 +37,7 @@ public class ApplicationConfiguration {
 
     @Bean
     public Producer producer() {
-        return new Producer("src/main/resources/books/1", broker);
+//        return new Producer("/Users/erikp/Desktop/books/1000", broker);
+        return new Producer("src/main/resources/books/1000", broker);
     }
 }

@@ -2,6 +2,7 @@ package nl.jworks.epub.loader;
 
 import nl.jworks.epub.domain.Book;
 import nl.jworks.epub.logic.names.BookProducer;
+import nl.jworks.epub.logic.strategy.BookContext;
 import nl.jworks.epub.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,16 +30,14 @@ public class Consumer implements Runnable {
     @Override
     public void run() {
         try {
-            File data = broker.get();
-
-            MDC.put("book-filename", data.getName());
+            File data = getData();
 
             while (broker.continueProducing || data != null) {
                 log.debug("Consumer {} processed data {} from broker", this.name, data);
 
                 processEpub(data);
 
-                data = broker.get();
+                data = getData();
             }
 
             log.debug("Comsumer " + this.name + " finished its job; terminating.");
@@ -47,12 +46,22 @@ public class Consumer implements Runnable {
         }
     }
 
+    private File getData() throws InterruptedException {
+
+        File data = broker.get();
+
+        MDC.put("book-filename", data.getName());
+
+        return data;
+    }
+
     private void processEpub(File data) {
         try {
-            Book book = bookProducer.produce(data);
+            BookContext context = BookContext.initialize(data);
+
+            Book book = bookProducer.produce(context);
 
             bookService.save(book);
-
 
 
 //            EpubReader epubReader = new EpubReader();

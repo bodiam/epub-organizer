@@ -2,10 +2,10 @@ package nl.jworks.epub.logic.strategy.language;
 
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Doubles;
+import nl.jworks.epub.logic.strategy.BookContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,11 +20,11 @@ public class LanguageScorer {
     );
 
 
-    public LanguageScore determineBestScore(File input) {
+    public LanguageScore determineBestScore(BookContext context) {
         List<LanguageScore> scores = new ArrayList<>();
 
         for (LanguageScoreStrategy strategy : languageStrategies) {
-            LanguageScore languageScore = strategy.score(input);
+            LanguageScore languageScore = strategy.score(context);
 
             log.debug("{} : {} = {}", languageScore.getSource(), languageScore.getValue(), languageScore.getScore());
 

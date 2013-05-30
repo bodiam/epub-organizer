@@ -1,7 +1,9 @@
 package nl.jworks.epub.logic.strategy.author;
 
 import nl.jworks.epub.domain.Author;
-import nl.jworks.epub.logic.names.*;
+import nl.jworks.epub.logic.names.Name;
+import nl.jworks.epub.logic.names.PersonNameCategorizer;
+import nl.jworks.epub.logic.strategy.BookContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,9 +24,10 @@ public class ParentDirectoryAuthorScoreStrategy implements AuthorScoreStrategy {
     private static Logger log = LoggerFactory.getLogger(ParentDirectoryAuthorScoreStrategy.class);
 
     @Override
-    public AuthorScore score(File source) {
+    public AuthorScore score(BookContext context) {
         try {
-            String dirName = source.getParentFile().getName();
+            File file = context.getFile();
+            String dirName = file.getParentFile().getName();
             String[] rawTokens = splitAuthorPairTokens(dirName);
             String[] tokens = trim(rawTokens);
 
@@ -44,7 +47,7 @@ public class ParentDirectoryAuthorScoreStrategy implements AuthorScoreStrategy {
 
             return new AuthorScore(authors, ParentDirectoryAuthorScoreStrategy.class);
         } catch (Exception e) {
-            log.error("Could not determine score for {}", source);
+            log.error("Could not determine score for {}", context);
 
             return new AuthorScore(Collections.<Author>emptyList(), ParentDirectoryAuthorScoreStrategy.class);
         }

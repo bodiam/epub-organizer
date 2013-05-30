@@ -57,7 +57,7 @@ public class PersonNameCategorizer {
         } else if (scoreFirstNameLastName < scoreLastNameFirstName) {
             return new Name(names[1], names[0]);
         } else {
-            log.info("Could not determine name in {}", names);
+            log.info("Could not determine name in {} {}", names[0], names[1]);
             return new Name(null, null);
 //            throw new IllegalArgumentException("Could not determine unique score for names " + names[0] + " and " + names[1]);
         }

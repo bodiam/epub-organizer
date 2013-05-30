@@ -1,14 +1,14 @@
 package nl.jworks.epub.logic.names;
 
 import nl.jworks.epub.domain.Book;
-import nl.jworks.epub.logic.strategy.author.*;
+import nl.jworks.epub.logic.strategy.BookContext;
+import nl.jworks.epub.logic.strategy.author.AuthorScorer;
 import nl.jworks.epub.logic.strategy.language.LanguageScorer;
 import nl.jworks.epub.logic.strategy.title.TitleScorer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
 
 @Component
@@ -16,14 +16,16 @@ public class BookProducer {
 
     private static Logger log = LoggerFactory.getLogger(BookProducer.class);
 
-    public Book produce(File input) throws IOException {
+    public Book produce(BookContext context) throws IOException {
 
         Book book = new Book();
 
-        book.setAuthors(new AuthorScorer().determineBestScore(input).getValue());
+
+
+        book.setAuthors(new AuthorScorer().determineBestScore(context).getValue());
         book.setSource("import");
-        book.setTitle(new TitleScorer().determineBestScore(input).getValue());
-        book.setLanguage((new LanguageScorer().determineBestScore(input).getValue()));
+        book.setTitle(new TitleScorer().determineBestScore(context).getValue());
+        book.setLanguage((new LanguageScorer().determineBestScore(context).getValue()));
 
         log.info("Produced book {}", book);
 

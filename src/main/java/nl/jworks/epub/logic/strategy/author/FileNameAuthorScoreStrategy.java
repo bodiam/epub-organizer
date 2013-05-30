@@ -1,9 +1,10 @@
 package nl.jworks.epub.logic.strategy.author;
 
 import nl.jworks.epub.domain.Author;
-import nl.jworks.epub.logic.names.*;
+import nl.jworks.epub.logic.names.Name;
+import nl.jworks.epub.logic.names.PersonNameCategorizer;
+import nl.jworks.epub.logic.strategy.BookContext;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.impl.SimpleLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -34,9 +35,9 @@ public class FileNameAuthorScoreStrategy implements AuthorScoreStrategy {
     public static final Pattern NAME_PATTERN = Pattern.compile("([a-zA-Z\\.]+)");
 
     @Override
-    public AuthorScore score(File source) {
+    public AuthorScore score(BookContext context) {
 
-        return new AuthorScore(getAuthors(source), FileNameAuthorScoreStrategy.class);
+        return new AuthorScore(getAuthors(context.getFile()), FileNameAuthorScoreStrategy.class);
     }
 
     private List<Author> getAuthors(File source) {

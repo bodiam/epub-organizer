@@ -52,3 +52,8 @@ TODO:
 
 - Replace Start.threadPool with @Async stuff??
 - Upgrade to Java 8?
+
+Bugs:
+
+- MDC doesn't work correctly when importing 10 files
+- Saving books always adds a new one, instead of updating it.

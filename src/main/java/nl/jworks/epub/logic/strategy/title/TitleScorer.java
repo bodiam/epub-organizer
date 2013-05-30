@@ -2,10 +2,10 @@ package nl.jworks.epub.logic.strategy.title;
 
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Doubles;
+import nl.jworks.epub.logic.strategy.BookContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,11 +19,11 @@ public class TitleScorer {
             new MetaDataTitleScoreStrategy()
     );
 
-    public TitleScore determineBestScore(File input) {
+    public TitleScore determineBestScore(BookContext context) {
         List<TitleScore> scores = new ArrayList<>();
 
         for (TitleScoreStrategy strategy : strategies) {
-            TitleScore titleScore = strategy.score(input);
+            TitleScore titleScore = strategy.score(context);
 
             log.debug("{} : {} = {}", titleScore.getSource(), titleScore.getValue(), titleScore.getScore());
 

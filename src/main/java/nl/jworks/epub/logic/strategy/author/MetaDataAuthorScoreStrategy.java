@@ -5,12 +5,10 @@ import com.google.common.primitives.Doubles;
 import nl.jworks.epub.domain.Author;
 import nl.jworks.epub.logic.names.Name;
 import nl.jworks.epub.logic.names.PersonNameCategorizer;
-import nl.siegmann.epublib.epub.EpubReader;
+import nl.jworks.epub.logic.strategy.BookContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,13 +19,9 @@ public class MetaDataAuthorScoreStrategy implements AuthorScoreStrategy {
     private static Logger log = LoggerFactory.getLogger(MetaDataAuthorScoreStrategy.class);
 
     @Override
-    public AuthorScore score(File source) {
+    public AuthorScore score(BookContext context) {
         try {
-            // read epub file
-            EpubReader epubReader = new EpubReader();
-            nl.siegmann.epublib.domain.Book epubBook = epubReader.readEpub(new FileInputStream(source));
-
-            List<nl.siegmann.epublib.domain.Author> epubAuthors = epubBook.getMetadata().getAuthors();
+            List<nl.siegmann.epublib.domain.Author> epubAuthors = context.getEpubBook().getMetadata().getAuthors();
 
             AuthorScore categorizerScore = getAuthorScoreUsingCategorizer(epubAuthors);
             AuthorScore metaDataScore = getAuthorScoreUsingPlainMetaData(epubAuthors);
@@ -41,7 +35,7 @@ public class MetaDataAuthorScoreStrategy implements AuthorScoreStrategy {
 
             return o.max(Arrays.asList(categorizerScore, metaDataScore));
         } catch (Exception e) {
-            log.error("Could not determine score for {}", source);
+            log.error("Could not determine score for {}", context);
 
             return new AuthorScore(Collections.<Author>emptyList(), MetaDataAuthorScoreStrategy.class);
         }

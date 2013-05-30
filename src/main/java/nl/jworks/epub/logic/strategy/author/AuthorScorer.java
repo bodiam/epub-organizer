@@ -2,10 +2,10 @@ package nl.jworks.epub.logic.strategy.author;
 
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Doubles;
+import nl.jworks.epub.logic.strategy.BookContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,11 +20,11 @@ public class AuthorScorer {
             new ParentDirectoryAuthorScoreStrategy()
     );
 
-    public AuthorScore determineBestScore(File input) {
+    public AuthorScore determineBestScore(BookContext context) {
         List<AuthorScore> scores = new ArrayList<>();
 
         for (AuthorScoreStrategy strategy : authorStrategies) {
-            AuthorScore authorScore = strategy.score(input);
+            AuthorScore authorScore = strategy.score(context);
 
             log.debug("{} : {} = {}", authorScore.getSource(), authorScore.getValue(), authorScore.getScore());
 

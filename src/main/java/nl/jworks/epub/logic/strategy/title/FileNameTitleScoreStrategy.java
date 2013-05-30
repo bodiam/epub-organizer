@@ -1,9 +1,7 @@
 package nl.jworks.epub.logic.strategy.title;
 
+import nl.jworks.epub.logic.strategy.BookContext;
 import org.springframework.util.Assert;
-
-import java.io.File;
-import java.util.regex.Pattern;
 
 import static org.apache.commons.lang3.StringUtils.indexOf;
 import static org.apache.commons.lang3.StringUtils.substring;
@@ -20,9 +18,9 @@ public class FileNameTitleScoreStrategy implements TitleScoreStrategy {
     public static final String SEPARATOR = "-";
 
     @Override
-    public TitleScore score(File source) {
+    public TitleScore score(BookContext context) {
 
-        String fileName = source.getName();
+        String fileName = context.getFile().getName();
 
         String title = extractTitlePart(fileName);
 

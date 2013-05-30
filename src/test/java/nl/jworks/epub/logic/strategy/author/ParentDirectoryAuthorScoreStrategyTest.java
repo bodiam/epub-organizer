@@ -1,6 +1,7 @@
 package nl.jworks.epub.logic.strategy.author;
 
 import nl.jworks.epub.domain.Author;
+import nl.jworks.epub.logic.strategy.BookContext;
 import nl.jworks.epub.logic.strategy.Score;
 import org.easymock.EasyMockSupport;
 import org.junit.Test;
@@ -15,15 +16,18 @@ public class ParentDirectoryAuthorScoreStrategyTest extends EasyMockSupport {
 
     @Test
     public void testExtractAuthorFromDirectoryName() throws Exception {
+        BookContext bookContext = createMock(BookContext.class);
+
         File mock = createMock(File.class);
         File parent = createMock(File.class);
 
         expect(mock.getParentFile()).andReturn(parent);
         expect(parent.getName()).andReturn("Christopher, Matt");
+        expect(bookContext.getFile()).andReturn(mock);
 
         replayAll();
 
-        Score<List<Author>> authorScores = new ParentDirectoryAuthorScoreStrategy().score(mock);
+        Score<List<Author>> authorScores = new ParentDirectoryAuthorScoreStrategy().score(bookContext);
 
         List<Author> authors = authorScores.getValue();
         double value = authorScores.getScore();
@@ -36,15 +40,18 @@ public class ParentDirectoryAuthorScoreStrategyTest extends EasyMockSupport {
 
     @Test
     public void testExtractMultipleAuthorsFromDirectoryName() throws Exception {
+        BookContext bookContext = createMock(BookContext.class);
+
         File mock = createMock(File.class);
         File parent = createMock(File.class);
 
         expect(mock.getParentFile()).andReturn(parent);
         expect(parent.getName()).andReturn("Jacques, Brian & Chalk, Gary");
+        expect(bookContext.getFile()).andReturn(mock);
 
         replayAll();
 
-        Score<List<Author>> authorScores = new ParentDirectoryAuthorScoreStrategy().score(mock);
+        Score<List<Author>> authorScores = new ParentDirectoryAuthorScoreStrategy().score(bookContext);
 
         List<Author> authors = authorScores.getValue();
         double value = authorScores.getScore();

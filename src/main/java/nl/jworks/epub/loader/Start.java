@@ -2,7 +2,6 @@ package nl.jworks.epub.loader;
 
 import nl.jworks.epub.configuration.ApplicationConfiguration;
 import nl.jworks.epub.persistence.spring.BinaryRepository;
-import nl.jworks.epub.persistence.spring.BookRepository;
 import nl.jworks.epub.util.DebugView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @Component
 public class Start {
@@ -49,6 +49,8 @@ public class Start {
 
         new DebugView().show();
 
+        long startTime = System.currentTimeMillis();
+
         try {
             ExecutorService threadPool = Executors.newFixedThreadPool(3);
 
@@ -60,6 +62,11 @@ public class Start {
             producerStatus.get();
 
             threadPool.shutdown();
+
+            long endTime = System.currentTimeMillis();
+
+            log.info("Processing all books took {} ms", (endTime-startTime));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
