@@ -1,7 +1,6 @@
 package nl.jworks.epub.loader;
 
 import nl.jworks.epub.configuration.ApplicationConfiguration;
-import nl.jworks.epub.persistence.spring.BinaryRepository;
 import nl.jworks.epub.util.DebugView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +34,7 @@ public class Start {
     public static void main(String[] args) {
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+        ctx.getEnvironment().setActiveProfiles("smalldata");
         ctx.register(ApplicationConfiguration.class);
         ctx.refresh();
 

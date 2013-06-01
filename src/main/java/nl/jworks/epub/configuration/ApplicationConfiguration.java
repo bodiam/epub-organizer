@@ -3,7 +3,6 @@ package nl.jworks.epub.configuration;
 
 import nl.jworks.epub.loader.Broker;
 import nl.jworks.epub.loader.Consumer;
-import nl.jworks.epub.loader.Producer;
 import nl.jworks.epub.logic.names.BookProducer;
 import nl.jworks.epub.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import java.util.UUID;
         "nl.jworks.epub",
         "nl.jworks.epub.persistence.spring"
 })
-@Import(SpringDataMongoConfiguration.class)
+@Import({SpringDataMongoConfiguration.class, BigDataSetConfig.class, SmallDataSetConfig.class})
 public class ApplicationConfiguration {
 
     @Autowired
@@ -35,9 +34,9 @@ public class ApplicationConfiguration {
         return new Consumer(UUID.randomUUID().toString(), broker, bookProducer, bookService);
     }
 
-    @Bean
-    public Producer producer() {
+//    @Bean
+//    public Producer producer() {
 //        return new Producer("/Users/erikp/Desktop/books/1000", broker);
-        return new Producer("src/main/resources/books/1000", broker);
-    }
+//        return new Producer("src/main/resources/books/1000", broker);
+//    }
 }

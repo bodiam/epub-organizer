@@ -44,10 +44,13 @@ TODO:
 - Add metadata parser for author                                                    DONE
 - Choose right author based on highest score                                        DONE
 - Springify                                                                         DONE
+- Added book context for faster loading                                             DONE
+- Create sifting appender per book                                                  DONE
+- Add profiles to make dataset switchable                                       -- IN PROGRESS --
 - Make titlescorer and authorscorer and languagescoring generic
 - Fix testBookProducerTest: should detected firstname: W. H., and lastname 'Davenport Adams'
 
-- Create sifting appender per book
+
 
 
 - Replace Start.threadPool with @Async stuff??
@@ -55,5 +58,4 @@ TODO:
 
 Bugs:
 
-- MDC doesn't work correctly when importing 10 files
 - Saving books always adds a new one, instead of updating it.

@@ -26,6 +26,8 @@ public class Producer implements Runnable {
     @Override
     public void run() {
         try {
+            logger.info("Processing from {}", location);
+
             Path startingDir = Paths.get(location);
             String pattern = "*.epub";
 
