@@ -13,28 +13,21 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 @Component
-public class Start {
+public abstract class Start {
 
     private static Logger log = LoggerFactory.getLogger(Start.class);
 
-    private final Consumer consumer1;
-    private final Consumer consumer2;
     private final Producer producer;
 
     @Autowired
-    public Start(Consumer consumer1,
-                 Consumer consumer2,
-                 Producer producer) {
-
-        this.consumer1 = consumer1;
-        this.consumer2 = consumer2;
+    public Start(Producer producer) {
         this.producer = producer;
     }
 
     public static void main(String[] args) {
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-        ctx.getEnvironment().setActiveProfiles("smalldata");
+        ctx.getEnvironment().setActiveProfiles("bigdata");
         ctx.register(ApplicationConfiguration.class);
         ctx.refresh();
 
@@ -50,10 +43,12 @@ public class Start {
         long startTime = System.currentTimeMillis();
 
         try {
-            ExecutorService threadPool = Executors.newFixedThreadPool(3);
+            ExecutorService threadPool = Executors.newFixedThreadPool(5);
 
-            threadPool.execute(consumer1);
-            threadPool.execute(consumer2);
+            threadPool.execute(createConsumer());
+            threadPool.execute(createConsumer());
+            threadPool.execute(createConsumer());
+            threadPool.execute(createConsumer());
             Future producerStatus = threadPool.submit(producer);
 
             // this will wait for the producer to finish its execution.
@@ -69,4 +64,6 @@ public class Start {
             e.printStackTrace();
         }
     }
+
+    protected abstract Consumer createConsumer();
 }
