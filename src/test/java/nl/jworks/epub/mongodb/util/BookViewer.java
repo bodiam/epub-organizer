@@ -42,7 +42,8 @@ public class BookViewer {
         contentPane.add(new JLabel("Source : " + book.getSource()));
         contentPane.add(new JLabel("Title : " + book.getTitle()));
         contentPane.add(new JLabel("Language : " + book.getLanguage()));
-        contentPane.add(new JLabel("ISBN : " + book.getIsbn()));
+        contentPane.add(new JLabel("ISBN 10: " + book.getIsbn10()));
+        contentPane.add(new JLabel("ISBN 13: " + book.getIsbn13()));
 //        contentPane.add(new JLabel("Summary : " + book.getSummary()));
         contentPane.add(new JLabel("Publisher : " + book.getPublisher()));
         contentPane.add(new JLabel("Publication date : " + book.getPublicationDate()));

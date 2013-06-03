@@ -2,6 +2,7 @@ package nl.jworks.epub.logic.strategy.author;
 
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Doubles;
+import nl.jworks.epub.annotations.NotNull;
 import nl.jworks.epub.domain.Author;
 import nl.jworks.epub.logic.names.Name;
 import nl.jworks.epub.logic.names.PersonNameCategorizer;
@@ -18,6 +19,7 @@ public class MetaDataAuthorScoreStrategy implements AuthorScoreStrategy {
 
     private static Logger log = LoggerFactory.getLogger(MetaDataAuthorScoreStrategy.class);
 
+    @NotNull
     @Override
     public AuthorScore score(BookContext context) {
         try {

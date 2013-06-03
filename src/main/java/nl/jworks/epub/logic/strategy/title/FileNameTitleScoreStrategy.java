@@ -1,5 +1,6 @@
 package nl.jworks.epub.logic.strategy.title;
 
+import nl.jworks.epub.annotations.NotNull;
 import nl.jworks.epub.logic.strategy.BookContext;
 import org.springframework.util.Assert;
 
@@ -17,6 +18,7 @@ public class FileNameTitleScoreStrategy implements TitleScoreStrategy {
 
     public static final String SEPARATOR = "-";
 
+    @NotNull
     @Override
     public TitleScore score(BookContext context) {
 

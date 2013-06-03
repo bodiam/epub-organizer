@@ -46,15 +46,23 @@ TODO:
 - Springify                                                                         DONE
 - Added book context for faster loading                                             DONE
 - Create sifting appender per book                                                  DONE
-- Add profiles to make dataset switchable                                       -- IN PROGRESS --
+- Add profiles to make dataset switchable                                           DONE
 - Make titlescorer and authorscorer and languagescoring generic
 - Fix testBookProducerTest: should detected firstname: W. H., and lastname 'Davenport Adams'
 
-
-
+- Make strategies pluggable (SPIs?)
+- Improve authorscorer to read the txt files with names
 
 - Replace Start.threadPool with @Async stuff??
 - Upgrade to Java 8?
+
+- Need to create a proper test epub with following characteristics to use for testing (dummybook.epub)
+  - Good author name
+  - Good title
+  - Good language
+  - Isbn10 + Isbn13
+  - Small cover image (max 5kb)
+
 
 Bugs:
 

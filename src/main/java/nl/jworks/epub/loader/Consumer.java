@@ -57,7 +57,7 @@ public class Consumer implements Runnable {
 
     private void processEpub(File data) {
         try {
-            BookContext context = BookContext.initialize(data);
+            BookContext context = new BookContext(data);
 
             Book book = bookProducer.produce(context);
 

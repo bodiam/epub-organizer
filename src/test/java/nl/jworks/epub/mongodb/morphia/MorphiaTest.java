@@ -1,27 +1,26 @@
 package nl.jworks.epub.mongodb.morphia;
 
 import com.github.jmkgreen.morphia.Datastore;
-import com.github.jmkgreen.morphia.Key;
 import com.github.jmkgreen.morphia.Morphia;
 import com.github.jmkgreen.morphia.query.Query;
 import com.github.jmkgreen.morphia.query.UpdateOperations;
-import nl.jworks.epub.domain.*;
+import nl.jworks.epub.domain.Author;
+import nl.jworks.epub.domain.Binary;
+import nl.jworks.epub.domain.Book;
+import nl.jworks.epub.domain.Tag;
 import nl.jworks.epub.mongodb.common.BookSupport;
 import nl.siegmann.epublib.epub.EpubReader;
 import org.apache.commons.io.FileUtils;
 import org.bson.types.ObjectId;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Date;
 import java.util.List;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class MorphiaTest extends BookSupport {
@@ -246,7 +245,7 @@ public class MorphiaTest extends BookSupport {
 
         // There's some hacking going one: when using Morphia, these queries don't work
         // when the id is a String. Making the id an ObjectId
-        Book entity = ds.get(Book.class, id); // doesn't work?
+//        Book entity = ds.get(Book.class, id);
 
         Book result = ds.find(Book.class).get();
         assertNotNull(result);
@@ -301,6 +300,7 @@ public class MorphiaTest extends BookSupport {
         ds.save(book);
 
         Book result = ds.find(Book.class).get();
+        assertEquals(book.getCover(), result.getCover());
         assertEquals(book, result);
     }
 

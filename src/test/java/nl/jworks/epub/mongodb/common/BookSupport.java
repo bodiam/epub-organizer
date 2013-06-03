@@ -22,7 +22,8 @@ public class BookSupport {
         book.setSource(source);
         book.setTitle("Getting started with Grails");
         book.setLanguage("nl");
-        book.setIsbn("1430243775");
+        book.setIsbn10("1430243775");
+        book.setIsbn13("978-1430243779");
         book.setSummary(getSummary());
         book.setPublisher("Manning");
         book.setPublicationDate(createDate("01-01-2006"));

@@ -16,7 +16,7 @@ public class MetaDataAuthorScoreStrategyTest {
     public void extractAuthorFromMetaData() {
         File file = new File("src/test/resources/epubs/Alexandre Dumas - The countess of Charney.epub");
 
-        BookContext bookContext = BookContext.initialize(file);
+        BookContext bookContext = new BookContext(file);
 
         Score<List<Author>> authorScores = new MetaDataAuthorScoreStrategy().score(bookContext);
 

@@ -1,5 +1,6 @@
 package nl.jworks.epub.logic.strategy.author;
 
+import nl.jworks.epub.annotations.NotNull;
 import nl.jworks.epub.domain.Author;
 import nl.jworks.epub.logic.names.Name;
 import nl.jworks.epub.logic.names.PersonNameCategorizer;
@@ -34,6 +35,7 @@ public class FileNameAuthorScoreStrategy implements AuthorScoreStrategy {
     public static final String SEPARATOR = "-";
     public static final Pattern NAME_PATTERN = Pattern.compile("([a-zA-Z\\.]+)");
 
+    @NotNull
     @Override
     public AuthorScore score(BookContext context) {
 

@@ -13,18 +13,15 @@ public class BookContext {
     private File file;
     private Book epubBook;
 
-    private BookContext(File file, Book epubBook) {
-        this.epubBook = epubBook;
-        this.file = file;
+    public BookContext(File file) {
+        initialize(file);
     }
 
-    public static BookContext initialize(File file) {
+    private void initialize(File file) {
         try {
             EpubReader epubReader = new EpubReader();
-            Book epubBook = epubReader.readEpub(new FileInputStream(file));
-
-            return new BookContext(file, epubBook);
-
+            this.epubBook = epubReader.readEpub(new FileInputStream(file));
+            this.file = file;
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize using file " + file, e);
         }

@@ -1,5 +1,6 @@
 package nl.jworks.epub.logic.strategy.language;
 
+import nl.jworks.epub.annotations.NotNull;
 import nl.jworks.epub.logic.strategy.BookContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ public class BookContentLanguageScoreStrategy implements LanguageScoreStrategy {
 
     private static Logger log = LoggerFactory.getLogger(BookContentLanguageScoreStrategy.class);
 
+    @NotNull
     @Override
     public LanguageScore score(BookContext context) {
         try {

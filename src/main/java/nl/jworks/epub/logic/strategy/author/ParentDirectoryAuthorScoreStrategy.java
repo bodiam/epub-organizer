@@ -1,5 +1,6 @@
 package nl.jworks.epub.logic.strategy.author;
 
+import nl.jworks.epub.annotations.NotNull;
 import nl.jworks.epub.domain.Author;
 import nl.jworks.epub.logic.names.Name;
 import nl.jworks.epub.logic.names.PersonNameCategorizer;
@@ -23,6 +24,7 @@ public class ParentDirectoryAuthorScoreStrategy implements AuthorScoreStrategy {
 
     private static Logger log = LoggerFactory.getLogger(ParentDirectoryAuthorScoreStrategy.class);
 
+    @NotNull
     @Override
     public AuthorScore score(BookContext context) {
         try {

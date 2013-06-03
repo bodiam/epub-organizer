@@ -6,6 +6,7 @@ import com.github.jmkgreen.morphia.annotations.Id;
 import com.github.jmkgreen.morphia.annotations.Reference;
 import com.google.common.base.Objects;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -30,7 +31,8 @@ public class Book {
 
     private String title;
     private String language;
-    private String isbn;
+    private String isbn10;
+    private String isbn13;
     private String summary;
     private String publisher;
     private Date publicationDate;
@@ -45,11 +47,11 @@ public class Book {
     private List<Tag> tags = new ArrayList<>();
 
     @Reference("cover")
-//    @DBRef
+    @DBRef
     private Binary cover;
 
     @Reference("epub")
-//    @DBRef
+    @DBRef
     private Binary epub;
 
 
@@ -89,12 +91,20 @@ public class Book {
         this.fileSizeInKb = fileSizeInKb;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public String getIsbn10() {
+        return isbn10;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
+    public void setIsbn10(String isbn10) {
+        this.isbn10 = isbn10;
+    }
+
+    public String getIsbn13() {
+        return isbn13;
+    }
+
+    public void setIsbn13(String isbn13) {
+        this.isbn13 = isbn13;
     }
 
     public String getLanguage() {
@@ -181,7 +191,8 @@ public class Book {
                 .add("title", title)
                 .add("source", source)
                 .add("language", language)
-                .add("isbn", isbn)
+                .add("isbn10", isbn10)
+                .add("isbn13", isbn13)
                 .add("publisher", publisher)
                 .add("publicationDate", publicationDate)
                 .add("numberOfPages", numberOfPages)
@@ -202,13 +213,14 @@ public class Book {
         final Book other = (Book) obj;
 
         return Objects.equal(this.title, other.title) &&
-                Objects.equal(this.isbn, other.isbn) &&
+                Objects.equal(this.isbn10, other.isbn10) &&
+                Objects.equal(this.isbn13, other.isbn13) &&
                 Objects.equal(this.language, other.language) &&
                 Objects.equal(this.authors, other.authors);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, isbn, language, authors);
+        return Objects.hashCode(title, isbn10, isbn13, language, authors);
     }
 }
