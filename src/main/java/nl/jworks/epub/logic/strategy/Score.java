@@ -1,13 +1,17 @@
 package nl.jworks.epub.logic.strategy;
 
+import nl.jworks.epub.annotations.NotNull;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public abstract class Score<T> {
 
     private T value;
     private Class source;
 
-    public Score(T value, Class source) {
-        this.value = value;
-        this.source = source;
+    public Score(@NotNull T value, @NotNull Class source) {
+        this.value = checkNotNull(value);
+        this.source = checkNotNull(source);
     }
 
     public T getValue() {

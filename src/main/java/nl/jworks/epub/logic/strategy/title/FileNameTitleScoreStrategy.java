@@ -1,7 +1,8 @@
 package nl.jworks.epub.logic.strategy.title;
 
 import nl.jworks.epub.annotations.NotNull;
-import nl.jworks.epub.logic.strategy.BookContext;
+import nl.jworks.epub.logic.strategy.BookImportContext;
+import nl.jworks.epub.logic.strategy.ScoreStrategy;
 import org.springframework.util.Assert;
 
 import static org.apache.commons.lang3.StringUtils.indexOf;
@@ -14,13 +15,13 @@ import static org.apache.commons.lang3.StringUtils.substring;
  * <p/>
  * Abbott, Megan - Dare Me.epub => Dare Me
  */
-public class FileNameTitleScoreStrategy implements TitleScoreStrategy {
+public class FileNameTitleScoreStrategy implements ScoreStrategy<TitleScore> {
 
     public static final String SEPARATOR = "-";
 
     @NotNull
     @Override
-    public TitleScore score(BookContext context) {
+    public TitleScore score(BookImportContext context) {
 
         String fileName = context.getFile().getName();
 

@@ -3,15 +3,16 @@ package nl.jworks.epub.logic.strategy.title;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
 import nl.jworks.epub.annotations.NotNull;
-import nl.jworks.epub.logic.strategy.BookContext;
+import nl.jworks.epub.logic.strategy.BookImportContext;
+import nl.jworks.epub.logic.strategy.ScoreStrategy;
 import nl.siegmann.epublib.domain.Book;
 
 import java.util.List;
 
-public class MetaDataTitleScoreStrategy implements TitleScoreStrategy {
+public class MetaDataTitleScoreStrategy implements ScoreStrategy<TitleScore> {
 
     @NotNull @Override
-    public TitleScore score(BookContext context) {
+    public TitleScore score(BookImportContext context) {
         // print the first title
         Book epubBook = context.getEpubBook();
         List<String> epubTitles = epubBook.getMetadata().getTitles();

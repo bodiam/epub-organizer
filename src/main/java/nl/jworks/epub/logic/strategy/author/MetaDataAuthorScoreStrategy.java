@@ -6,7 +6,8 @@ import nl.jworks.epub.annotations.NotNull;
 import nl.jworks.epub.domain.Author;
 import nl.jworks.epub.logic.names.Name;
 import nl.jworks.epub.logic.names.PersonNameCategorizer;
-import nl.jworks.epub.logic.strategy.BookContext;
+import nl.jworks.epub.logic.strategy.BookImportContext;
+import nl.jworks.epub.logic.strategy.ScoreStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,13 +16,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class MetaDataAuthorScoreStrategy implements AuthorScoreStrategy {
+public class MetaDataAuthorScoreStrategy implements ScoreStrategy<AuthorScore> {
 
     private static Logger log = LoggerFactory.getLogger(MetaDataAuthorScoreStrategy.class);
 
     @NotNull
     @Override
-    public AuthorScore score(BookContext context) {
+    public AuthorScore score(BookImportContext context) {
         try {
             List<nl.siegmann.epublib.domain.Author> epubAuthors = context.getEpubBook().getMetadata().getAuthors();
 

@@ -4,7 +4,8 @@ import nl.jworks.epub.annotations.NotNull;
 import nl.jworks.epub.domain.Author;
 import nl.jworks.epub.logic.names.Name;
 import nl.jworks.epub.logic.names.PersonNameCategorizer;
-import nl.jworks.epub.logic.strategy.BookContext;
+import nl.jworks.epub.logic.strategy.BookImportContext;
+import nl.jworks.epub.logic.strategy.ScoreStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,13 +21,13 @@ import java.util.List;
  * <p/>
  * Christopher, Matt => Matt Christopher
  */
-public class ParentDirectoryAuthorScoreStrategy implements AuthorScoreStrategy {
+public class ParentDirectoryAuthorScoreStrategy implements ScoreStrategy<AuthorScore> {
 
     private static Logger log = LoggerFactory.getLogger(ParentDirectoryAuthorScoreStrategy.class);
 
     @NotNull
     @Override
-    public AuthorScore score(BookContext context) {
+    public AuthorScore score(BookImportContext context) {
         try {
             File file = context.getFile();
             String dirName = file.getParentFile().getName();

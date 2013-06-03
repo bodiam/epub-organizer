@@ -47,14 +47,9 @@ TODO:
 - Added book context for faster loading                                             DONE
 - Create sifting appender per book                                                  DONE
 - Add profiles to make dataset switchable                                           DONE
-- Make titlescorer and authorscorer and languagescoring generic
-- Fix testBookProducerTest: should detected firstname: W. H., and lastname 'Davenport Adams'
-
-- Make strategies pluggable (SPIs?)
+- Added code coverage                                                               DONE
+- Make titlescorer and authorscorer and languagescoring generic                     DONE
 - Improve authorscorer to read the txt files with names
-
-- Replace Start.threadPool with @Async stuff??
-- Upgrade to Java 8?
 
 - Need to create a proper test epub with following characteristics to use for testing (dummybook.epub)
   - Good author name
@@ -63,7 +58,18 @@ TODO:
   - Isbn10 + Isbn13
   - Small cover image (max 5kb)
 
+- Store all book data in bookproducer
+- Extract content from book
+- Add tag (eg gutenberg) to all books imported from gutenberg
+
+Later:
+
+- Upgrade to Java 8?
+- Replace Start.threadPool with @Async stuff??
+- Make strategies pluggable (SPIs?)
+
 
 Bugs:
 
 - Saving books always adds a new one, instead of updating it.
+- Fix testBookProducerTest: should detected firstname: W. H., and lastname 'Davenport Adams'

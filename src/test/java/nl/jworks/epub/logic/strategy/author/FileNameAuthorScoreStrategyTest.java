@@ -1,7 +1,7 @@
 package nl.jworks.epub.logic.strategy.author;
 
 import nl.jworks.epub.domain.Author;
-import nl.jworks.epub.logic.strategy.BookContext;
+import nl.jworks.epub.logic.strategy.BookImportContext;
 import nl.jworks.epub.logic.strategy.Score;
 import org.easymock.EasyMockSupport;
 import org.junit.Test;
@@ -16,15 +16,15 @@ public class FileNameAuthorScoreStrategyTest extends EasyMockSupport {
 
     @Test
     public void testExtractAuthorFromFileName() throws Exception {
-        BookContext bookContext = createMock(BookContext.class);
+        BookImportContext bookImportContext = createMock(BookImportContext.class);
 
         File mock = createMock(File.class);
         expect(mock.getName()).andReturn("Abbott, Megan - Dare Me.epub");
-        expect(bookContext.getFile()).andReturn(mock);
+        expect(bookImportContext.getFile()).andReturn(mock);
 
         replayAll();
 
-        Score<List<Author>> authorScores = new FileNameAuthorScoreStrategy().score(bookContext);
+        Score<List<Author>> authorScores = new FileNameAuthorScoreStrategy().score(bookImportContext);
 
         List<Author> authors = authorScores.getValue();
         double value = authorScores.getScore();
@@ -37,14 +37,14 @@ public class FileNameAuthorScoreStrategyTest extends EasyMockSupport {
 
     @Test
     public void testExtractAuthorFromOtherFileName() throws Exception {
-        BookContext bookContext = createMock(BookContext.class);
+        BookImportContext bookImportContext = createMock(BookImportContext.class);
 
         File mock = createMock(File.class);
         expect(mock.getName()).andReturn("P. L. Travers - Mary Poppins From A to Z(epub).epub");
-        expect(bookContext.getFile()).andReturn(mock);
+        expect(bookImportContext.getFile()).andReturn(mock);
         replayAll();
 
-        Score<List<Author>> authorScores = new FileNameAuthorScoreStrategy().score(bookContext);
+        Score<List<Author>> authorScores = new FileNameAuthorScoreStrategy().score(bookImportContext);
 
         List<Author> authors = authorScores.getValue();
         double value = authorScores.getScore();
@@ -56,13 +56,13 @@ public class FileNameAuthorScoreStrategyTest extends EasyMockSupport {
 
     @Test
     public void testExtractAuthorFromOnlyLastname() throws Exception {
-        BookContext bookContext = createMock(BookContext.class);
+        BookImportContext bookImportContext = createMock(BookImportContext.class);
         File mock = createMock(File.class);
         expect(mock.getName()).andReturn("Travers - Mary Poppins From A to Z(epub).epub");
-        expect(bookContext.getFile()).andReturn(mock);
+        expect(bookImportContext.getFile()).andReturn(mock);
         replayAll();
 
-        Score<List<Author>> authorScores = new FileNameAuthorScoreStrategy().score(bookContext);
+        Score<List<Author>> authorScores = new FileNameAuthorScoreStrategy().score(bookImportContext);
 
         List<Author> authors = authorScores.getValue();
         double value = authorScores.getScore();

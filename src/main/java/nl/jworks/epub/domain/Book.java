@@ -43,6 +43,8 @@ public class Book {
     private int numberOfPages;
     private int fileSizeInKb;
 
+    // private String contents;
+
     private List<Author> authors = new ArrayList<>();
     private List<Tag> tags = new ArrayList<>();
 

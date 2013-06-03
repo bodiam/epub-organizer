@@ -2,7 +2,7 @@ package nl.jworks.epub.loader;
 
 import nl.jworks.epub.domain.Book;
 import nl.jworks.epub.logic.names.BookProducer;
-import nl.jworks.epub.logic.strategy.BookContext;
+import nl.jworks.epub.logic.strategy.BookImportContext;
 import nl.jworks.epub.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +57,7 @@ public class Consumer implements Runnable {
 
     private void processEpub(File data) {
         try {
-            BookContext context = new BookContext(data);
+            BookImportContext context = new BookImportContext(data);
 
             Book book = bookProducer.produce(context);
 

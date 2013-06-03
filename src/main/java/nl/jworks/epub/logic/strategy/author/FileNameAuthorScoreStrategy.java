@@ -4,7 +4,8 @@ import nl.jworks.epub.annotations.NotNull;
 import nl.jworks.epub.domain.Author;
 import nl.jworks.epub.logic.names.Name;
 import nl.jworks.epub.logic.names.PersonNameCategorizer;
-import nl.jworks.epub.logic.strategy.BookContext;
+import nl.jworks.epub.logic.strategy.BookImportContext;
+import nl.jworks.epub.logic.strategy.ScoreStrategy;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,16 +29,15 @@ import static org.apache.commons.lang3.StringUtils.substring;
  * <p/>
  * Abbott, Megan - Dare Me.epub => Megan Abbott
  */
-public class FileNameAuthorScoreStrategy implements AuthorScoreStrategy {
+public class FileNameAuthorScoreStrategy implements ScoreStrategy<AuthorScore> {
 
     private static Logger log = LoggerFactory.getLogger(FileNameAuthorScoreStrategy.class);
 
     public static final String SEPARATOR = "-";
     public static final Pattern NAME_PATTERN = Pattern.compile("([a-zA-Z\\.]+)");
 
-    @NotNull
-    @Override
-    public AuthorScore score(BookContext context) {
+    @NotNull @Override
+    public AuthorScore score(BookImportContext context) {
 
         return new AuthorScore(getAuthors(context.getFile()), FileNameAuthorScoreStrategy.class);
     }

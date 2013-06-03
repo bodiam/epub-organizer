@@ -1,7 +1,7 @@
 package nl.jworks.epub.logic.strategy.author;
 
 import nl.jworks.epub.domain.Author;
-import nl.jworks.epub.logic.strategy.BookContext;
+import nl.jworks.epub.logic.strategy.BookImportContext;
 import nl.jworks.epub.logic.strategy.Score;
 import org.junit.Test;
 
@@ -16,9 +16,9 @@ public class MetaDataAuthorScoreStrategyTest {
     public void extractAuthorFromMetaData() {
         File file = new File("src/test/resources/epubs/Alexandre Dumas - The countess of Charney.epub");
 
-        BookContext bookContext = new BookContext(file);
+        BookImportContext bookImportContext = new BookImportContext(file);
 
-        Score<List<Author>> authorScores = new MetaDataAuthorScoreStrategy().score(bookContext);
+        Score<List<Author>> authorScores = new MetaDataAuthorScoreStrategy().score(bookImportContext);
 
         List<Author> authors = authorScores.getValue();
         double value = authorScores.getScore();

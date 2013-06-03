@@ -8,12 +8,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class BookContext {
+public class BookImportContext {
 
     private File file;
     private Book epubBook;
 
-    public BookContext(File file) {
+    public BookImportContext(File file) {
         initialize(file);
     }
 
