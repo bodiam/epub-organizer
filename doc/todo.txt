@@ -34,7 +34,11 @@ Operatons:
 - Create index on Author
 
 
+- Add tests for jongo
 
+- Add search (sphinx)
+
+- Query stuff (jsoniq)
 
 
 

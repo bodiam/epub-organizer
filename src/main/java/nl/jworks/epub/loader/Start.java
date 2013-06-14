@@ -37,7 +37,6 @@ public abstract class Start {
 
     public void start() {
 
-
         new DebugView().show();
 
         long startTime = System.currentTimeMillis();

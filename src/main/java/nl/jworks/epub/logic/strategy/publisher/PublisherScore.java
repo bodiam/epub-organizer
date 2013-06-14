@@ -1,11 +1,11 @@
-package nl.jworks.epub.logic.strategy.summary;
+package nl.jworks.epub.logic.strategy.publisher;
 
 import nl.jworks.epub.annotations.NotNull;
 import nl.jworks.epub.logic.strategy.Score;
 
-public class SummaryScore extends Score<String> {
+public class PublisherScore extends Score<String> {
 
-    public SummaryScore(@NotNull String value, @NotNull Class source) {
+    public PublisherScore(@NotNull String value, @NotNull Class source) {
         super(value, source);
     }
 

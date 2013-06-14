@@ -2,6 +2,7 @@ package nl.jworks.epub.logic.strategy;
 
 import com.google.common.base.Objects;
 import nl.siegmann.epublib.domain.Book;
+import nl.siegmann.epublib.domain.Metadata;
 import nl.siegmann.epublib.epub.EpubReader;
 
 import java.io.File;
@@ -29,6 +30,10 @@ public class BookImportContext {
 
     public Book getEpubBook() {
         return epubBook;
+    }
+
+    public Metadata getMetadata() {
+        return epubBook.getMetadata();
     }
 
     public File getFile() {
