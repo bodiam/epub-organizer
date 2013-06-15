@@ -4,7 +4,7 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import nl.siegmann.epublib.domain.*;
 import nl.siegmann.epublib.epub.EpubReader;
-import org.junit.Test;
+import org.junit.Ignore;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +14,7 @@ import java.util.Set;
 public class BookMetaDataReaderTest {
 
 
-    @Test
+    @Ignore
     public void readMetaData() throws Exception {
 
 //        File file = new File("/Users/erikp/Desktop/gutenberg/snowy.arsc.alaska.edu/gutenberg/cache/generated/107/pg107-images.epub");
