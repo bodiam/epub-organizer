@@ -38,10 +38,11 @@ public class BookProducer {
 
         book.setTags(new TagsScorer().determineBestScore(context).getValue());
 
-//        private Date publicationDate;
-//        private Date dateAdded = new Date();
-
         // private String dewey; // ddc
+
+
+//        book.setEpub();
+//        book.setCover();
 
 //        private int numberOfPages;
 //        private int fileSizeInKb;

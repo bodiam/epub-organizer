@@ -56,6 +56,17 @@ TODO:
 - Improve authorscorer to read the txt files with names
 - Add tag (eg gutenberg) to all books imported from gutenberg
 
+Add thesaurus search, zoals door jsoniq
+
+Change broker from class to interface, make MongoDB broker using capped collections. Also invesigate Redis.
+    http://www.10gen.com/presentations/mongodb-message-queue
+    http://blog.serverdensity.com/queueing-mongodb-using-mongodb/
+
+Enable logging for Graphite
+Enable code coverage (https://coveralls.io/ ?)
+
+Turn documentation into github documentation
+
 Later:
 
 - Upgrade to Java 8?
