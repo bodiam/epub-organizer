@@ -9,8 +9,10 @@ import org.junit.Test;
 import java.io.File;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
 import static org.easymock.EasyMock.expect;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public class ParentDirectoryAuthorScoreStrategyTest extends EasyMockSupport {
 
@@ -30,12 +32,11 @@ public class ParentDirectoryAuthorScoreStrategyTest extends EasyMockSupport {
         Score<List<Author>> authorScores = new ParentDirectoryAuthorScoreStrategy().score(bookImportContext);
 
         List<Author> authors = authorScores.getValue();
-        double value = authorScores.getScore();
 
         verifyAll();
 
-        assertEquals(new Author("Matt", "Christopher"), authors.get(0));
-        assertEquals(1.0, value);
+        assertThat(authors, hasItems(new Author("Matt", "Christopher")));
+        assertThat(authorScores.getScore(), is(1.0));
     }
 
     @Test
@@ -58,9 +59,8 @@ public class ParentDirectoryAuthorScoreStrategyTest extends EasyMockSupport {
 
         verifyAll();
 
-        assertEquals(new Author("Brian", "Jacques"), authors.get(0));
-        assertEquals(new Author("Gary", "Chalk"), authors.get(1));
-        assertEquals(1.0, value);
+        assertThat(authors, hasItems(new Author("Brian", "Jacques"), new Author("Gary", "Chalk")));
+        assertThat(authorScores.getScore(), is(1.0));
     }
 
     public void testJunk() {

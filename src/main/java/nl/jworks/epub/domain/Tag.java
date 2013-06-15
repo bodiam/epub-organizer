@@ -6,8 +6,8 @@ public class Tag {
 
     private String text;
 
-
-    private Tag() {}
+    private Tag() {
+    }
 
     public Tag(String text) {
 
@@ -23,5 +23,22 @@ public class Tag {
         return Objects.toStringHelper(this)
                 .add("text", text)
                 .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        final Tag other = (Tag) o;
+        return java.util.Objects.equals(this.text, other.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(text);
     }
 }

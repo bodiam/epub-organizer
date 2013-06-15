@@ -8,7 +8,9 @@ import org.junit.Test;
 import java.io.File;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public class MetaDataAuthorScoreStrategyTest {
 
@@ -21,9 +23,8 @@ public class MetaDataAuthorScoreStrategyTest {
         Score<List<Author>> authorScores = new MetaDataAuthorScoreStrategy().score(bookImportContext);
 
         List<Author> authors = authorScores.getValue();
-        double value = authorScores.getScore();
 
-        assertEquals(1.0, value);
-        assertEquals(new Author("Alexandre", "Dumas"), authors.get(0));
+        assertThat(authors, hasItems(new Author("Alexandre", "Dumas")));
+        assertThat(authorScores.getScore(), is(1.0));
     }
 }

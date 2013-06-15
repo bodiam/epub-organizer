@@ -25,19 +25,14 @@ Tags
 - Remove tag from book
 - Find book by tag
 
-
 Queries:
 - Find authors with more than 2 books
--
 
 Operatons:
 - Create index on Author
 
-
 - Add tests for jongo
-
 - Add search (sphinx)
-
 - Query stuff (jsoniq)
 
 
@@ -53,17 +48,12 @@ TODO:
 - Add profiles to make dataset switchable                                           DONE
 - Added code coverage                                                               DONE
 - Make titlescorer and authorscorer and languagescoring generic                     DONE
+- Move away from Junit assertEquals, etc, and use Hamcrest instead                  DONE
+- Create VirtualBook, smth like: new BookBuilder().isbn10(....).tags(....).build()  DONE
+- Store all book data in bookproducer                                           IN PROGRESS
+- Extract content from book                                                     IN PROGRESS
+
 - Improve authorscorer to read the txt files with names
-
-- Need to create a proper test epub with following characteristics to use for testing (dummybook.epub)
-  - Good author name
-  - Good title
-  - Good language
-  - Isbn10 + Isbn13
-  - Small cover image (max 5kb)
-
-- Store all book data in bookproducer
-- Extract content from book
 - Add tag (eg gutenberg) to all books imported from gutenberg
 
 Later:
@@ -71,7 +61,6 @@ Later:
 - Upgrade to Java 8?
 - Replace Start.threadPool with @Async stuff??
 - Make strategies pluggable (SPIs?)
-
 
 Bugs:
 

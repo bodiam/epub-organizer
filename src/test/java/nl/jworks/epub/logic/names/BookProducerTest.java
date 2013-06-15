@@ -7,10 +7,10 @@ import org.junit.Test;
 
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public class BookProducerTest {
-
 
     @Test
     public void testEnrichBooks() throws Exception {
@@ -19,7 +19,7 @@ public class BookProducerTest {
 
         Book book = new BookProducer().produce(bookImportContext);
 
-        assertEquals(new Author("Davenport", "Adams W. H."), book.getFirstAuthor());
+        assertThat(book.getFirstAuthor(), is(new Author("Davenport", "Adams W. H.")));
 
     }
 }

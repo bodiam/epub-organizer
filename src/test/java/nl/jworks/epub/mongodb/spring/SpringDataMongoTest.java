@@ -21,9 +21,8 @@ import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = SpringDataMongoConfig.class)
@@ -58,8 +57,8 @@ public class SpringDataMongoTest extends BookSupport {
         Book savedBook = bookRepository.save(book);
 
         Book result = bookRepository.findOne(savedBook.id);
-        assertEquals(book, result);
-        assertEquals(result.getAuthors().size(), 1);
+        assertThat(result, is(book));
+        assertThat(result.getAuthors(), hasSize(1));
     }
 
     @Test
@@ -69,8 +68,8 @@ public class SpringDataMongoTest extends BookSupport {
         Book savedBook = testBookService.save(book);
 
         Book result = bookRepository.findOne(savedBook.id);
-        assertEquals(book, result);
-        assertEquals(result.getAuthors().size(), 1);
+        assertThat(result, is(book));
+        assertThat(result.getAuthors(), hasSize(1));
     }
 
     @Test
@@ -83,8 +82,8 @@ public class SpringDataMongoTest extends BookSupport {
         Book savedBook = bookRepository.save(book);
 
         Book result = bookRepository.findOne(savedBook.id);
-        assertEquals(book, result);
-        assertEquals(result.getAuthors().size(), 3);
+        assertThat(result, is(book));
+        assertThat(result.getAuthors(), hasSize(3));
     }
 
 
@@ -97,21 +96,15 @@ public class SpringDataMongoTest extends BookSupport {
 
         bookRepository.save(Arrays.asList(book1, book2, book3));
 
-        long count = bookRepository.count();
-
-        assertEquals(3, count);
-
         List<Book> result = bookRepository.findAll();
 
-        assertEquals(book1, result.get(0));
-        assertEquals(book2, result.get(1));
-        assertEquals(book3, result.get(2));
+        assertThat(result, hasItems(book1, book2, book3));
     }
 
     @Test
     public void findBooksByTitle() {
         saveDefaultBook();
-        assertNotNull(bookRepository.findByTitle("Getting started with Grails"));
+        assertThat(bookRepository.findByTitle("Getting started with Grails"), is(notNullValue()));
     }
 
     @Test
@@ -121,7 +114,7 @@ public class SpringDataMongoTest extends BookSupport {
         List<Book> foundBooks = bookRepository.findAllByAuthorLastname("Rocher");
 
         Author actual = foundBooks.get(0).getAuthors().get(0);
-        assertEquals("Rocher", actual.getLastName());
+        assertThat(actual.getLastName(), is("Rocher"));
     }
 
     @Test
@@ -131,8 +124,8 @@ public class SpringDataMongoTest extends BookSupport {
         List<Book> foundBooks = bookRepository.findAllByAuthorFirstnameAndLastname("Graeme", "Rocher");
 
         Author actual = foundBooks.get(0).getAuthors().get(0);
-        assertEquals("Graeme", actual.getFirstName());
-        assertEquals("Rocher", actual.getLastName());
+        assertThat(actual.getFirstName(), is("Graeme"));
+        assertThat(actual.getLastName(), is("Rocher"));
     }
 
     @Test
@@ -142,8 +135,8 @@ public class SpringDataMongoTest extends BookSupport {
         List<Book> foundBooks = bookRepository.findAllByAuthors(new Author("Graeme", "Rocher"));
 
         Author actual = foundBooks.get(0).getAuthors().get(0);
-        assertEquals("Graeme", actual.getFirstName());
-        assertEquals("Rocher", actual.getLastName());
+        assertThat(actual.getFirstName(), is("Graeme"));
+        assertThat(actual.getLastName(), is("Rocher"));
     }
 
     @Test
@@ -152,9 +145,7 @@ public class SpringDataMongoTest extends BookSupport {
 
         List<Book> books = bookRepository.findAllByPublicationDateAfterAndNumberOfPagesLessThan(createDate("01-01-1980"), 400);
 
-        assertEquals(1, books.size());
-        assertEquals(book, books.get(0));
-    }
+        assertThat(books, hasItem(book));    }
 
     @Test
     public void insertBookWithBinaryEpub() throws Exception {
@@ -180,7 +171,7 @@ public class SpringDataMongoTest extends BookSupport {
         // print the first title
         List<String> titles = epub.getMetadata().getTitles();
 
-        assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
+        assertThat(titles, hasItem("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson"));
     }
 
     @Test
@@ -204,7 +195,7 @@ public class SpringDataMongoTest extends BookSupport {
         long copyLength = file.length();
 
 //        BookViewer.view(foundBook);
-        assertEquals(originalLength, copyLength);
+        assertThat(copyLength, is(originalLength));
     }
 
 
@@ -235,14 +226,14 @@ public class SpringDataMongoTest extends BookSupport {
         // print the first title
         List<String> titles = result.getMetadata().getTitles();
 
-        assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
+        assertThat(titles, hasItem("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson"));
     }
 
     @Test
     public void addCoverToBook() throws Exception {
         Book book = saveDefaultBook();
 
-        assertNull(book.getCover());
+        assertThat(book.getCover(), is(nullValue()));
 
         Book foundBook = bookRepository.findOne(book.id);
         File coverFile = new File("src/test/resources/32x32.jpg");
@@ -252,7 +243,7 @@ public class SpringDataMongoTest extends BookSupport {
         binaryRepository.save(cover);
         Book savedAgain = bookRepository.save(foundBook);
 
-        assertNotNull(savedAgain.getCover());
+        assertThat(savedAgain.getCover(), is(notNullValue()));
     }
 
     @Test
@@ -260,11 +251,12 @@ public class SpringDataMongoTest extends BookSupport {
         Book book = saveDefaultBook();
 
         Book result = bookRepository.findOne(book.id);
-        assertNotNull(result);
+
+        assertThat(result, is(notNullValue()));
 
         bookRepository.delete(book);
 
-        assertNull(bookRepository.findOne(book.id));
+        assertThat(bookRepository.findOne(book.id), is(nullValue()));
     }
 
 

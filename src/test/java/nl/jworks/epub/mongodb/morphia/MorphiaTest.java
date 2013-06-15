@@ -19,9 +19,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 
 public class MorphiaTest extends BookSupport {
 
@@ -44,7 +43,7 @@ public class MorphiaTest extends BookSupport {
         ds.delete(ds.createQuery(Book.class));
 
         Book found = ds.find(Book.class).field("title").equal("Getting started with Grails").get(); //get the first one where name = "someName
-        assertNull(found);
+        assertThat(found, is(nullValue()));
 
     }
 
@@ -56,8 +55,8 @@ public class MorphiaTest extends BookSupport {
         ds.save(book);
 
         Book result = ds.find(Book.class).get();
-        assertEquals(book, result);
-        assertEquals(result.getAuthors().size(), 1);
+        assertThat(result, is(book));
+        assertThat(result.getAuthors(), hasSize(1));
     }
 
     @Test
@@ -70,8 +69,8 @@ public class MorphiaTest extends BookSupport {
         ds.save(book);
 
         Book result = ds.find(Book.class).get();
-        assertEquals(book, result);
-        assertEquals(result.getAuthors().size(), 3);
+        assertThat(result, is(book));
+        assertThat(result.getAuthors(), hasSize(3));
     }
 
     @Test
@@ -83,22 +82,20 @@ public class MorphiaTest extends BookSupport {
 
         ds.save(book1, book2, book3);
 
-        long count = ds.getCount(Book.class);
-
-        assertEquals(3, count);
-
         List<Book> result = ds.find(Book.class).asList();
 
-        assertEquals(book1, result.get(0));
-        assertEquals(book2, result.get(1));
-        assertEquals(book3, result.get(2));
+        assertThat(result, hasItems(book1, book2, book3));
     }
 
     @Test
     public void findBooksByTitle() throws Exception {
         saveDefaultBook();
 
-        assertNotNull(ds.find(Book.class).field("title").equal("Getting started with Grails").get());
+        Book book = ds.find(Book.class).field("title").equal("Getting started with Grails").get();
+
+        Author actual = book.getAuthors().get(0);
+
+        assertThat(actual.getLastName(), is("Rocher"));
 
     }
 
@@ -106,14 +103,14 @@ public class MorphiaTest extends BookSupport {
     public void findBooksByAuthorLastname() {
         saveDefaultBook();
 
-        assertNotNull(ds.find(Book.class).field("authors.lastName").equal("Rocher").get());
+        assertThat(ds.find(Book.class).field("authors.lastName").equal("Rocher").get(), is(notNullValue()));
     }
 
     @Test
     public void findBooksByAuthorFirstnameAndLastname() {
         saveDefaultBook();
 
-        assertNotNull(ds.find(Book.class).field("authors.firstName").equal("Graeme").field("authors.lastName").equal("Rocher").get());
+        assertThat(ds.find(Book.class).field("authors.firstName").equal("Graeme").field("authors.lastName").equal("Rocher").get(), is(notNullValue()));
     }
 
     @Test
@@ -121,10 +118,11 @@ public class MorphiaTest extends BookSupport {
         saveDefaultBook();
 
         Book book = ds.find(Book.class).field("authors").equal(new Author("Graeme", "Rocher")).get();
-        assertNotNull(book);
+        assertThat(book, is(notNullValue()));
+
         Author author = book.getAuthors().get(0);
-        assertEquals("Graeme", author.getFirstName());
-        assertEquals("Rocher", author.getLastName());
+        assertThat(author.getFirstName(), is("Graeme"));
+        assertThat(author.getLastName(), is("Rocher"));
     }
 
     @Test
@@ -137,8 +135,8 @@ public class MorphiaTest extends BookSupport {
         // debug
 //        String s1 = ((QueryImpl) q1).getQueryObject().toString();
 
-        assertNotNull(q1.get());
-        assertNotNull(q2.get());
+        assertThat(q1.get(), is(notNullValue()));
+        assertThat(q2.get(), is(notNullValue()));
     }
 
     @Test
@@ -163,7 +161,7 @@ public class MorphiaTest extends BookSupport {
         // print the first title
         List<String> titles = epub.getMetadata().getTitles();
 
-        assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
+        assertThat(titles, hasItem("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson"));
     }
 
     @Test
@@ -184,7 +182,7 @@ public class MorphiaTest extends BookSupport {
 
         long copyLength = file.length();
 
-        assertEquals(originalLength, copyLength);
+        assertThat(copyLength, is(originalLength));
 
     }
 
@@ -213,7 +211,7 @@ public class MorphiaTest extends BookSupport {
         // print the first title
         List<String> titles = result.getMetadata().getTitles();
 
-        assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
+        assertThat(titles, hasItem("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson"));
     }
 
     @Test
@@ -221,7 +219,7 @@ public class MorphiaTest extends BookSupport {
         saveDefaultBook();
         Book book = ds.find(Book.class).get();
 
-        assertNull(book.getCover());
+        assertThat(book.getCover(), is(nullValue()));
 
         File coverFile = new File("src/test/resources/32x32.jpg");
         Binary cover = new Binary(FileUtils.readFileToByteArray(coverFile));
@@ -234,7 +232,7 @@ public class MorphiaTest extends BookSupport {
         ds.update(ds.find(Book.class), updateOperations);
         Book savedAgain = ds.find(Book.class).get();
 
-        assertNotNull(savedAgain.getCover());
+        assertThat(savedAgain.getCover(), is(notNullValue()));
     }
 
     @Test
@@ -247,12 +245,11 @@ public class MorphiaTest extends BookSupport {
         // when the id is a String. Making the id an ObjectId
 //        Book entity = ds.get(Book.class, id);
 
-        Book result = ds.find(Book.class).get();
-        assertNotNull(result);
+        assertThat(ds.find(Book.class).get(), is(notNullValue()));
 
         ds.delete(Book.class, id);
 
-        assertNull(ds.find(Book.class).get());
+        assertThat(ds.find(Book.class).get(), is(nullValue()));
     }
 
     @Test
@@ -267,29 +264,29 @@ public class MorphiaTest extends BookSupport {
         ds.save(book);
 
         Book result = ds.find(Book.class).get();
-        assertEquals(book, result);
-        assertEquals(result.getTags().size(), 5);
+        assertThat(result, is(book));
+        assertThat(result.getTags(), hasSize(5));
     }
 
     @Test
     public void findByTitle() {
         saveDefaultBook();
 
-        assertNotNull(ds.find(Book.class).field("title").equal("Getting started with Grails").get());
+        assertThat(ds.find(Book.class).field("title").equal("Getting started with Grails").get(), is(notNullValue()));
     }
 
     @Test
     public void findByAuthor() {
         saveDefaultBook();
 
-        assertNotNull(ds.find(Book.class).field("authors.lastName").equal("Rocher").get());
+        assertThat(ds.find(Book.class).field("authors.lastName").equal("Rocher").get(), is(notNullValue()));
     }
 
     @Test
     public void findByAuthorNoAuthorFound() {
         saveDefaultBook();
 
-        assertNull(ds.find(Book.class).field("authors.lastName").equal("Pietje puk").get());
+        assertThat(ds.find(Book.class).field("authors.lastName").equal("Pietje puk").get(), is(nullValue()));
     }
 
 
@@ -300,8 +297,8 @@ public class MorphiaTest extends BookSupport {
         ds.save(book);
 
         Book result = ds.find(Book.class).get();
-        assertEquals(book.getCover(), result.getCover());
-        assertEquals(book, result);
+        assertThat(result.getCover(), is(book.getCover()));
+        assertThat(result, is(book));
     }
 
 

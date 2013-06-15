@@ -22,12 +22,13 @@ import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public class MongoJackTest extends BookSupport {
 
     private DBCollection booksCollection;
-    private DBCollection binariesCollection;
     private JacksonDBCollection<Book,ObjectId> books;
     private JacksonDBCollection<Binary,ObjectId> binaries;
 
@@ -43,7 +44,7 @@ public class MongoJackTest extends BookSupport {
 
         DB db = mongoClient.getDB("epub");
         booksCollection = db.getCollection("books");
-        binariesCollection = db.getCollection("binaries");
+        DBCollection binariesCollection = db.getCollection("binaries");
 
         books = JacksonDBCollection.wrap(booksCollection, Book.class, ObjectId.class);
         binaries = JacksonDBCollection.wrap(binariesCollection, Binary.class, ObjectId.class);
@@ -59,8 +60,9 @@ public class MongoJackTest extends BookSupport {
         ObjectId id = writeResult.getSavedId();
 
         Book result = books.findOneById(id);
-        assertEquals(book, result);
-        assertEquals(result.getAuthors().size(), 1);
+
+        assertThat(result, is(book));
+        assertThat(result.getAuthors(), hasSize(1));
     }
 
     @Test
@@ -75,8 +77,8 @@ public class MongoJackTest extends BookSupport {
         ObjectId id = writeResult.getSavedId();
 
         Book result = books.findOneById(id);
-        assertEquals(book, result);
-        assertEquals(result.getAuthors().size(), 3);
+        assertThat(result, is(book));
+        assertThat(result.getAuthors(), hasSize(3));
     }
 
     @Test
@@ -88,22 +90,16 @@ public class MongoJackTest extends BookSupport {
 
         books.insert(book1, book2, book3);
 
-        long count = books.count();
-
-        assertEquals(3, count);
-
         List<Book> result = books.find().toArray();
 
-        assertEquals(book1, result.get(0));
-        assertEquals(book2, result.get(1));
-        assertEquals(book3, result.get(2));
+        assertThat(result, hasItems(book1, book2, book3));
     }
 
     @Test
     public void findBooksByTitle() {
         saveDefaultBook();
 
-        assertEquals("Getting started with Grails", books.findOne(DBQuery.is("title", "Getting started with Grails")).getTitle());
+        assertThat(books.findOne(DBQuery.is("title", "Getting started with Grails")).getTitle(), is("Getting started with Grails"));
     }
 
     @Test
@@ -113,7 +109,8 @@ public class MongoJackTest extends BookSupport {
         List<Book> foundBooks = books.find(DBQuery.is("authors.lastName", "Rocher")).toArray();
 
         Author actual = foundBooks.get(0).getAuthors().get(0);
-        assertEquals("Rocher", actual.getLastName());
+
+        assertThat(actual.getLastName(), is("Rocher"));
     }
 
     @Test
@@ -123,8 +120,9 @@ public class MongoJackTest extends BookSupport {
         List<Book> foundBooks = books.find(DBQuery.is("authors.firstName", "Graeme").is("authors.lastName", "Rocher")).toArray();
 
         Author actual = foundBooks.get(0).getAuthors().get(0);
-        assertEquals("Graeme", actual.getFirstName());
-        assertEquals("Rocher", actual.getLastName());
+
+        assertThat(actual.getFirstName(), is("Graeme"));
+        assertThat(actual.getLastName(), is("Rocher"));
     }
 
     @Test
@@ -134,8 +132,8 @@ public class MongoJackTest extends BookSupport {
         List<Book> foundBooks = books.find(DBQuery.is("authors", Arrays.asList(new Author("Graeme", "Rocher")))).toArray();
 
         Author actual = foundBooks.get(0).getAuthors().get(0);
-        assertEquals("Graeme", actual.getFirstName());
-        assertEquals("Rocher", actual.getLastName());
+        assertThat(actual.getFirstName(), is("Graeme"));
+        assertThat(actual.getLastName(), is("Rocher"));
     }
 
     @Test
@@ -144,8 +142,7 @@ public class MongoJackTest extends BookSupport {
 
         List<Book> books = this.books.find(DBQuery.greaterThan("publicationDate", createDate("01-01-1980")).lessThan("numberOfPages", 400)).toArray();
 
-        assertEquals(1, books.size());
-        assertEquals(book, books.get(0));
+        assertThat(books, hasItem(book));
     }
 
     @Test
@@ -172,7 +169,7 @@ public class MongoJackTest extends BookSupport {
         // print the first title
         List<String> titles = epub.getMetadata().getTitles();
 
-        assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
+        assertThat(titles, hasItem("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson"));
     }
 
 
@@ -197,7 +194,7 @@ public class MongoJackTest extends BookSupport {
         long copyLength = file.length();
 
 //        BookViewer.view(foundBook);
-        assertEquals(originalLength, copyLength);
+        assertThat(copyLength, is(originalLength));
     }
 
     @Test
@@ -227,7 +224,7 @@ public class MongoJackTest extends BookSupport {
         // print the first title
         List<String> titles = result.getMetadata().getTitles();
 
-        assertEquals("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson", titles.get(0));
+        assertThat(titles, hasItem("Alice's Adventures in Wonderland / Illustrated by Arthur Rackham. With a Proem by Austin Dobson"));
     }
 
     /*

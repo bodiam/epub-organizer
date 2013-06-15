@@ -6,7 +6,8 @@ import nl.jworks.epub.mongodb.common.BookSupport;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public class MongoJavaDriverTest extends BookSupport {
 
@@ -55,6 +56,6 @@ public class MongoJavaDriverTest extends BookSupport {
 
         DBObject myDoc = books.findOne();
 
-        assertEquals(book.getTitle(), myDoc.get("title"));
+        assertThat((String) myDoc.get("title"), is(book.getTitle()));
     }
 }

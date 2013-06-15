@@ -9,6 +9,7 @@ import nl.jworks.epub.logic.strategy.language.LanguageScorer;
 import nl.jworks.epub.logic.strategy.publicationdate.PublicationDateScorer;
 import nl.jworks.epub.logic.strategy.publisher.PublisherScorer;
 import nl.jworks.epub.logic.strategy.summary.SummaryScorer;
+import nl.jworks.epub.logic.strategy.tags.TagsScorer;
 import nl.jworks.epub.logic.strategy.title.TitleScorer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class BookProducer {
         book.setPublisher(new PublisherScorer().determineBestScore(context).getValue());
         book.setPublicationDate(new PublicationDateScorer().determineBestScore(context).getValue());
 
-//        book.setTags
+        book.setTags(new TagsScorer().determineBestScore(context).getValue());
 
 //        private Date publicationDate;
 //        private Date dateAdded = new Date();

@@ -9,8 +9,10 @@ import org.junit.Test;
 import java.io.File;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
 import static org.easymock.EasyMock.expect;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
+import static org.junit.Assert.assertThat;
 
 public class FileNameAuthorScoreStrategyTest extends EasyMockSupport {
 
@@ -27,12 +29,11 @@ public class FileNameAuthorScoreStrategyTest extends EasyMockSupport {
         Score<List<Author>> authorScores = new FileNameAuthorScoreStrategy().score(bookImportContext);
 
         List<Author> authors = authorScores.getValue();
-        double value = authorScores.getScore();
 
         verifyAll();
 
-        assertEquals(new Author("Megan", "Abbott"), authors.get(0));
-        assertEquals(1.0, value);
+        assertThat(authors, contains(new Author("Megan", "Abbott")));
+        assertThat(authorScores.getScore(), is(1.0));
     }
 
     @Test
@@ -47,11 +48,11 @@ public class FileNameAuthorScoreStrategyTest extends EasyMockSupport {
         Score<List<Author>> authorScores = new FileNameAuthorScoreStrategy().score(bookImportContext);
 
         List<Author> authors = authorScores.getValue();
-        double value = authorScores.getScore();
 
         verifyAll();
-        assertEquals(new Author("P. L.", "Travers"), authors.get(0));
-        assertEquals(1.0, value);
+
+        assertThat(authors, hasItems(new Author("P. L.", "Travers")));
+        assertThat(authorScores.getScore(), is(1.0));
     }
 
     @Test
@@ -68,7 +69,8 @@ public class FileNameAuthorScoreStrategyTest extends EasyMockSupport {
         double value = authorScores.getScore();
 
         verifyAll();
-        assertEquals(new Author("", "Travers"), authors.get(0));
-        assertEquals(1.0, value);
+
+        assertThat(authors, hasItems(new Author("", "Travers")));
+        assertThat(authorScores.getScore(), is(1.0));
     }
 }

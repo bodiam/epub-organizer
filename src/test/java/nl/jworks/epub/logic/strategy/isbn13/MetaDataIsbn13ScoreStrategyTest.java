@@ -1,9 +1,11 @@
 package nl.jworks.epub.logic.strategy.isbn13;
 
-import nl.jworks.epub.util.DummyBookImportContext;
+import nl.jworks.epub.logic.strategy.BookImportContext;
+import nl.jworks.epub.util.BookBuilder;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public class MetaDataIsbn13ScoreStrategyTest {
 
@@ -11,9 +13,11 @@ public class MetaDataIsbn13ScoreStrategyTest {
     public void testIsbn() {
         MetaDataIsbn13ScoreStrategy strategy = new MetaDataIsbn13ScoreStrategy();
 
-        Isbn13Score score = strategy.score(new DummyBookImportContext());
+        BookImportContext importContext = new BookBuilder().isbn("1234567890123").buildContext();
 
-        assertEquals("9781904902843", score.getValue());
-        assertEquals(0.5, score.getScore());
+        Isbn13Score score = strategy.score(importContext);
+
+        assertThat(score.getValue(), is("1234567890123"));
+        assertThat(score.getScore(), is(1.0));
     }
 }
