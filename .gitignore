@@ -4,3 +4,6 @@ classes
 .idea/
 epub-organizer-gradle.iml
 output.epub
+logs
+build
+logFile.*
