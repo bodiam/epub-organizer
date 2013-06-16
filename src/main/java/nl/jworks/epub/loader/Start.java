@@ -12,6 +12,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -47,10 +48,7 @@ public abstract class Start {
 
     public void start() throws Exception {
 
-        bookRepository.deleteAll();
-        binaryRepository.deleteAll();
-
-        FileUtils.cleanDirectory(new File("logs"));
+        clean();
 
         new DebugView().show();
 
@@ -77,6 +75,12 @@ public abstract class Start {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void clean() throws IOException {
+        bookRepository.deleteAll();
+        binaryRepository.deleteAll();
+        FileUtils.cleanDirectory(new File("logs"));
     }
 
     protected abstract Consumer createConsumer();
