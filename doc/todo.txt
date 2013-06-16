@@ -36,6 +36,10 @@ Operatons:
 - Query stuff (jsoniq)
 
 
+Integrate:
+    http://developer.harpercollins.com/blog
+    http://openlibrary.org/dev/docs/api/books
+
 
 TODO:
 - Fix tests: in case of P. L. Travers, use Travers as lastname.                     DONE

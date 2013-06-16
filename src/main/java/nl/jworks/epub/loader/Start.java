@@ -1,6 +1,8 @@
 package nl.jworks.epub.loader;
 
 import nl.jworks.epub.configuration.ApplicationConfiguration;
+import nl.jworks.epub.persistence.spring.BinaryRepository;
+import nl.jworks.epub.persistence.spring.BookRepository;
 import nl.jworks.epub.util.DebugView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +20,22 @@ public abstract class Start {
     private static Logger log = LoggerFactory.getLogger(Start.class);
 
     private final Producer producer;
+    private final BookRepository bookRepository;
+    private final BinaryRepository binaryRepository;
 
     @Autowired
-    public Start(Producer producer) {
+    public Start(Producer producer,
+                 BookRepository bookRepository,
+                 BinaryRepository binaryRepository) {
         this.producer = producer;
+        this.bookRepository = bookRepository;
+        this.binaryRepository = binaryRepository;
     }
 
     public static void main(String[] args) {
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-        ctx.getEnvironment().setActiveProfiles("bigdata");
+        ctx.getEnvironment().setActiveProfiles("smalldata");
         ctx.register(ApplicationConfiguration.class);
         ctx.refresh();
 
@@ -36,6 +44,9 @@ public abstract class Start {
     }
 
     public void start() {
+
+        bookRepository.deleteAll();
+        binaryRepository.deleteAll();
 
         new DebugView().show();
 

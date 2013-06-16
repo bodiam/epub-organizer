@@ -41,7 +41,7 @@ public class Book {
     // private String dewey; // ddc
 
     private int numberOfPages;
-    private int fileSizeInKb;
+    private int fileSizeInKb;   // todo: can be removed/replaced based on epub binary?
 
     // private String contents;
 

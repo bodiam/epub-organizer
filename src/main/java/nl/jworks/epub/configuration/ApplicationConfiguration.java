@@ -6,6 +6,8 @@ import nl.jworks.epub.loader.Consumer;
 import nl.jworks.epub.loader.Producer;
 import nl.jworks.epub.loader.Start;
 import nl.jworks.epub.logic.names.BookProducer;
+import nl.jworks.epub.persistence.spring.BinaryRepository;
+import nl.jworks.epub.persistence.spring.BookRepository;
 import nl.jworks.epub.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -33,6 +35,12 @@ public class ApplicationConfiguration {
     @Autowired
     private Producer producer;
 
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
+    private BinaryRepository binaryRepository;
+
     @Bean
     @Scope("prototype")
     public Consumer consumer() {
@@ -41,9 +49,9 @@ public class ApplicationConfiguration {
 
     @Bean
     public Start start() {
-        // return new anonymous implementation of CommandManager with command() overridden
-        // to return a new prototype Command object
-        return new Start(producer) {
+        // return new anonymous implementation of Start with createConsumer() overridden
+        // to return a new prototype Consumer object
+        return new Start(producer, bookRepository, binaryRepository) {
             @Override
             protected Consumer createConsumer() {
                 return consumer();
