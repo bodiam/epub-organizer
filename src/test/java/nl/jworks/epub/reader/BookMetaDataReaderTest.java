@@ -4,27 +4,32 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import nl.siegmann.epublib.domain.*;
 import nl.siegmann.epublib.epub.EpubReader;
-import org.junit.Ignore;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 public class BookMetaDataReaderTest {
 
 
-    @Ignore
+    @Test
     public void readMetaData() throws Exception {
 
 //        File file = new File("/Users/erikp/Desktop/gutenberg/snowy.arsc.alaska.edu/gutenberg/cache/generated/107/pg107-images.epub");
 //        File file = new File("/Users/erikp/Desktop/gutenberg/snowy.arsc.alaska.edu/gutenberg/cache/generated/42690/pg42690-images.epub");
-        File file = new File("/Users/erikp/Desktop/gutenberg/snowy.arsc.alaska.edu/gutenberg/cache/generated/42631/pg42631-images.epub");
+        String location = "src/test/resources/epubs/The Friendship Club of Madison - Friendship Club Cook Book.epub";
+        File file = new File(location);
 
         EpubReader epubReader = new EpubReader();
         Book book = epubReader.readEpub(new FileInputStream(file));
         Metadata metadata = book.getMetadata();
 
+        System.out.println("Location            : " + location);
         System.out.println("First Title         : " + metadata.getFirstTitle());
         System.out.println("Title               : " + book.getTitle());
         System.out.println("Author              : " + metadata.getAuthors());
@@ -45,12 +50,25 @@ public class BookMetaDataReaderTest {
 
         Spine spine = book.getSpine();
         System.out.println("Spine size          : " + spine.size());
-//        System.out.println("Content             : " + book.getContents());
+        System.out.println("Content             : " + printContent(book.getContents()));
 
-        printPerMediaType(book.getContents());
+        printPerMediaType(book.getResources().getAll());
     }
 
-    private void printPerMediaType(List<Resource> contents) {
+    private String printContent(List<Resource> contents) throws Exception {
+        StringBuilder result = new StringBuilder();
+
+        for (Resource content : contents) {
+            String html = new String(content.getData());
+
+            Document document = Jsoup.parse(html);
+            result.append(document.body().text() + "\n");
+        }
+
+        return result.toString();
+    }
+
+    private void printPerMediaType(Collection<Resource> contents) {
         Multiset<MediaType> result = HashMultiset.create();
 
         for (Resource content : contents) {

@@ -13,12 +13,16 @@ import nl.jworks.epub.logic.strategy.publisher.PublisherScorer;
 import nl.jworks.epub.logic.strategy.summary.SummaryScorer;
 import nl.jworks.epub.logic.strategy.tags.TagsScorer;
 import nl.jworks.epub.logic.strategy.title.TitleScorer;
+import nl.siegmann.epublib.domain.Resource;
 import org.apache.commons.io.FileUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 public class BookProducer {
@@ -48,6 +52,7 @@ public class BookProducer {
         book.setFileSizeInKb(epub.getContents().length / 1024);
 
         book.setCover(new CoverScorer().determineBestScore(context).getValue());
+        book.setContents(getContent(context.getEpubBook().getContents()) );
 
 //        private int numberOfPages;
 
@@ -60,5 +65,19 @@ public class BookProducer {
     private Binary getBinaryFromFile(BookImportContext context) throws IOException {
         return new Binary(FileUtils.readFileToByteArray(context.getFile()));
     }
+
+    private String getContent(List<Resource> contents) throws IOException {
+        StringBuilder result = new StringBuilder();
+
+        for (Resource content : contents) {
+            String html = new String(content.getData());
+
+            Document document = Jsoup.parse(html);
+            result.append(document.body().text() + "\n");
+        }
+
+        return result.toString();
+    }
+
 
 }

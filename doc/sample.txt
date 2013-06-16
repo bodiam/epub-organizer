@@ -1,0 +1,33 @@
+        private static Dictionary<string, int> FindPatterns(string value)
+        {
+            List<string> patternToSearchList = new List<string>();
+            for (int i = 0; i < value.Length; i++)
+            {
+                for (int j = 2; j <= value.Length / 2; j++)
+                {
+                    if (i + j <= value.Length)
+                    {
+                        patternToSearchList.Add(value.Substring(i, j));
+                    }
+                }
+            }
+            Dictionary<string, int> results = new Dictionary<string, int>();
+            foreach (string pattern in patternToSearchList)
+            {
+                int occurence = Regex.Matches(value, pattern, RegexOptions.IgnoreCase).Count;
+                if (occurence > 1)
+                {
+                    results[pattern] = occurence;
+                }
+            }
+
+            return results;
+        }
+        static void Main(string[] args)
+        {
+            Dictionary<string, int> result = FindPatterns("asdxgkeopgkajdflkjbpoijadadafhjkafikeoadkjhadfkjhocihakeo");
+            foreach (KeyValuePair<string, int> res in result.OrderByDescending(r => r.Value))
+            {
+                Console.WriteLine("Pattern:" + res.Key + " occurence:" + res.Value.ToString());
+            }
+            Console.Read();

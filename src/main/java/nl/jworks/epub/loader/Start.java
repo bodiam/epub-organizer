@@ -4,12 +4,14 @@ import nl.jworks.epub.configuration.ApplicationConfiguration;
 import nl.jworks.epub.persistence.spring.BinaryRepository;
 import nl.jworks.epub.persistence.spring.BookRepository;
 import nl.jworks.epub.util.DebugView;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -32,7 +34,7 @@ public abstract class Start {
         this.binaryRepository = binaryRepository;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.getEnvironment().setActiveProfiles("smalldata");
@@ -43,10 +45,12 @@ public abstract class Start {
         start.start();
     }
 
-    public void start() {
+    public void start() throws Exception {
 
         bookRepository.deleteAll();
         binaryRepository.deleteAll();
+
+        FileUtils.cleanDirectory(new File("logs"));
 
         new DebugView().show();
 

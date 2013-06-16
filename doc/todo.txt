@@ -35,11 +35,21 @@ Operatons:
 - Add search (sphinx)
 - Query stuff (jsoniq)
 
+Add hash (unique and phash) for duplicate detection
 
 Integrate:
     http://developer.harpercollins.com/blog
     http://openlibrary.org/dev/docs/api/books
+    http://isbndb.com/api/v2/docs
 
+String patterns:
+http://social.msdn.microsoft.com/Forums/en-US/csharpgeneral/thread/037047fc-5506-4656-ad27-dab9a6c501ee
+    http://www-igm.univ-mlv.fr/~lecroq/string/
+
+    Art of Computer Programming, Volume 3: Sorting and Searching
+        http://www.amazon.com/gp/product/0201896850
+    Introduction to algorithms:
+        http://www.amazon.com/gp/product/0262531968
 
 TODO:
 - Fix tests: in case of P. L. Travers, use Travers as lastname.                     DONE
@@ -57,6 +67,8 @@ TODO:
 - Store all book data in bookproducer                                           IN PROGRESS
 - Extract content from book                                                     IN PROGRESS
 
+
+- Add error handling
 - Improve authorscorer to read the txt files with names
 - Add tag (eg gutenberg) to all books imported from gutenberg
 

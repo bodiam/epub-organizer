@@ -43,7 +43,7 @@ public class Book {
     private int numberOfPages;
     private int fileSizeInKb;   // todo: can be removed/replaced based on epub binary?
 
-    // private String contents;
+    private String contents;
 
     private List<Author> authors = new ArrayList<>();
     private List<Tag> tags = new ArrayList<>();
@@ -91,6 +91,14 @@ public class Book {
 
     public void setFileSizeInKb(int fileSizeInKb) {
         this.fileSizeInKb = fileSizeInKb;
+    }
+
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
+
+    public String getContents() {
+        return contents;
     }
 
     public String getIsbn10() {
@@ -229,4 +237,5 @@ public class Book {
     public int hashCode() {
         return Objects.hashCode(title, isbn10, isbn13, language, authors);
     }
+
 }
