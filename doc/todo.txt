@@ -1,4 +1,3 @@
-
                                                 Morphia           Spring              By hand       MongoJack
 Books
 - Insert book with one author                       x               x                   x               x
@@ -37,6 +36,9 @@ Operatons:
 
 Add hash (unique and phash) for duplicate detection
 
+
+
+
 Integrate:
     http://developer.harpercollins.com/blog
     http://openlibrary.org/dev/docs/api/books
@@ -66,7 +68,9 @@ TODO:
 - Create VirtualBook, smth like: new BookBuilder().isbn10(....).tags(....).build()  DONE
 - Store all book data in bookproducer                                           IN PROGRESS
 - Extract content from book                                                     IN PROGRESS
-
+- Integrate with Drone.IO                                                           DONE
+- Integrate with Travis-ci                                                          DONE
+- Integrate with Wrecker                                                            
 
 - Add error handling
 - Improve authorscorer to read the txt files with names
