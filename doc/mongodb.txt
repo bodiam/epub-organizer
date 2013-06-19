@@ -1,0 +1,58 @@
+
+== Enable text search ==
+source:
+- http://blog.mongodb.org/post/40513621310/mongodb-text-search-experimental-feature-in-mongodb)
+- http://docs.mongodb.org/manual/core/text-search/
+
+First, enable the text search in MongoDB. Use either:
+    mongod --setParameter textSearchEnabled=true
+or
+    db.adminCommand( { setParameter : 1, textSearchEnabled : true } )
+
+To enable this currently beta functionality.
+
+Then, create an index:
+    t.ensureIndex( { caption: "text" } );
+This will create an index using the English language. To change it, use:
+    db.collection.ensureIndex(
+                               { content : "text" },
+                               { default_language: "spanish" }
+                             )
+
+Supported languages:
+danish
+dutch
+english
+finnish
+french
+german
+hungarian
+italian
+norwegian
+portuguese
+romanian
+russian
+spanish
+swedish
+turkish
+
+Then, search:
+    t.runCommand( "text", { search : "Australian" } );
+
+
+Change the weight of fields:
+
+    db.blog.ensureIndex(
+                     {
+                       content: "text",
+                       keywords: "text",
+                       about: "text"
+                     },
+                     {
+                       weights: {
+                                  content: 10,
+                                  keywords: 5,
+                                },
+                       name: "TextIndex"
+                     }
+                   )
