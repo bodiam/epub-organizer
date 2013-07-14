@@ -3,7 +3,10 @@
 [![Build Status](https://travis-ci.org/bodiam/epub-organizer.png?branch=master)](https://travis-ci.org/bodiam/epub-organizer)  
 [![Build Status](https://drone.io/github.com/bodiam/epub-organizer/status.png)](https://drone.io/github.com/bodiam/epub-organizer/latest)
 
-This project is created to compare different [MongoDB](http://www.mongodb.org) clients and mappers. It currently consists of the following frameworks:
+This project was created to compare different [MongoDB](http://www.mongodb.org) clients and mappers. However, at the moment is serves as a project to manage [GutenBerg](http://www.gutenberg.org) books.
+It's also a test project in which I'm trying out different things, like functional programming with Guava, MongoDB storage, DropWizard and AngularJS support, etc.
+
+### MongoDB
 
 * `Spring Data - MongoDB` - [Spring Data](http://www.springsource.org/spring-data/mongodb) powered ORM.
 * `Morphia` - A mature but sleeping ORM. I've used a [fork](https://github.com/jmkgreen/morphia).
