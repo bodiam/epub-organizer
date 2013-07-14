@@ -50,7 +50,6 @@ jar {
     }
 
     // remove the security files (from mail.jar / activation.jar) so that the jar will be executable.
-
     doFirst {
         from (configurations.runtime.resolve().collect { it.isDirectory() ? it : zipTree(it) }) {
             exclude 'META-INF/MANIFEST.MF'
@@ -59,4 +58,9 @@ jar {
             exclude 'META-INF/*.RSA'
         }
     }
+
+    doLast {
+        println "Jar has been created in ${archivePath}"
+    }
 }
+
