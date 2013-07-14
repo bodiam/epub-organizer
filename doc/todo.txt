@@ -82,7 +82,14 @@ Change broker from class to interface, make MongoDB broker using capped collecti
     http://www.10gen.com/presentations/mongodb-message-queue
     http://blog.serverdensity.com/queueing-mongodb-using-mongodb/
 
-Enable logging for Graphite
+Enable logging for Graphite (statistics)
+- Number of books
+- Number of books per day
+- Number of duplicates
+- Number of authors (per day)
+- Number of words, text, etc
+
+
 Enable code coverage (https://coveralls.io/ ?)
 
 Turn documentation into github documentation
@@ -97,3 +104,7 @@ Bugs:
 
 - Saving books always adds a new one, instead of updating it.
 - Fix testBookProducerTest: should detected firstname: W. H., and lastname 'Davenport Adams'
+
+todo:
+- make multimodule
+- make ui

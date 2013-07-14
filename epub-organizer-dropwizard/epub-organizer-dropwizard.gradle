@@ -1,0 +1,13 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+
+jacocoTestReport {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
+}
+
+dependencies {
+    compile project(":epub-organizer-core")
+}
+

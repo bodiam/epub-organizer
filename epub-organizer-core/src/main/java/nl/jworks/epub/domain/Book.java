@@ -15,7 +15,7 @@ import java.util.List;
 
 @JsonIgnoreProperties({"firstAuthor"}) // mongojack
 @Entity("books")                       // morphia
-@Document(collection="books")          // spring
+@Document(collection= "books")          // spring
 public class Book {
 
 //    @Id                                         // morphia

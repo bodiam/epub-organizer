@@ -1,1 +1,8 @@
 rootProject.buildFileName = 'epub-organizer.gradle'
+
+include ':epub-organizer-core', ':epub-organizer-dropwizard'
+
+rootProject.children.each { project ->
+    String fileBaseName = project.name.replaceAll("\\p{Upper}") { "-${it.toLowerCase()}" }
+    project.buildFileName = "${fileBaseName}.gradle"
+}

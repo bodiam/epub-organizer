@@ -26,6 +26,15 @@ public abstract class AbstractScorer<T extends Score> {
             scores.add(score);
         }
 
+/**
+        List<T> scores = Lists.transform(getStrategies(), new Function<ScoreStrategy<T>, T>() {
+            @Override
+            public T apply(ScoreStrategy<T> strategy) {
+                return strategy.score(context);
+            }
+        });
+  */
+
         Ordering<T> o = new Ordering<T>() {
             @Override
             public int compare(T left, T right) {
