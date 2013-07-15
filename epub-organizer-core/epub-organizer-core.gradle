@@ -10,8 +10,8 @@ jacocoTestReport {
 dependencies {
     
     compile /** Common libraries */ (
-        'ch.qos.logback:logback-classic:1.0.13'
-        'com.codahale.metrics:metrics-core:3.0.0'
+        'ch.qos.logback:logback-classic:1.0.13',
+        'com.codahale.metrics:metrics-core:3.0.0',
         'com.google.guava:guava:14.0.1',
         'commons-io:commons-io:2.4',        
         'org.apache.commons:commons-lang3:3.1',
@@ -23,8 +23,8 @@ dependencies {
     )
     
     compile /** Spring data */ (
-        'org.springframework.data:spring-data-mongodb:1.2.0.RELEASE'
-        'org.springframework:spring-test:3.1.4.RELEASE'
+        'org.springframework.data:spring-data-mongodb:1.2.0.RELEASE',
+        'org.springframework:spring-test:3.1.4.RELEASE',
         'cglib:cglib-nodep:2.2'
     )
     
