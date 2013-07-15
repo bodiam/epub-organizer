@@ -3,6 +3,10 @@ subprojects {
     group = 'nl.jworks.epub-organizer'
     version = '1.0'
 
+    // Use Java 7 by default
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+
     repositories {
         mavenCentral()
 
@@ -36,4 +40,25 @@ subprojects {
 task wrapper(type: Wrapper) {
     gradleVersion = '1.6'
 }
+
+def artifacts = []
+
+gradle.addListener(new TaskExecutionListener() {
+        void afterExecute(Task task, TaskState state) {
+
+                if(task in AbstractArchiveTask) {
+                        artifacts << task.outputs.files.singleFile
+                }
+        }
+
+        void beforeExecute(Task task) { }
+})
+
+gradle.addBuildListener(new BuildAdapter() {
+        void buildFinished(BuildResult result) {
+                if(artifacts) {
+                        println "\nOutput location: ${artifacts.last()}\n"
+                }
+        }
+})
 
