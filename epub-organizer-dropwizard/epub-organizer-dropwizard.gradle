@@ -9,10 +9,6 @@ project.ext {
 // The main class of the application
 mainClassName = 'nl.jworks.epub.dropwizard.HelloWorldService'
 
-// Use Java 7 by default
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
 dependencies {
     compile project(":epub-organizer-core")
 
@@ -30,6 +26,7 @@ run {
     args 'server', './src/main/resources/hello-world.yml'
 }
 
+// Create the executable jar and exclude some certificates
 jar {
 
     manifest {
@@ -47,40 +44,4 @@ jar {
             exclude 'META-INF/*.RSA'
         }
     }
-
-    doLast {
-        println "Jar has been created in ${archivePath}"
-    }
 }
-
-/**
- * Experimental tasks
- */
-task artifacts {
-    group = "Help"
-    description = "Displays the artifacts associated with each configuration of " + project
-    doFirst {
-        configurations.findAll().each { config ->
-            println "${config}:"
-            config.allArtifacts.getFiles().each { file -> println "  " + file}
-            println ' '
-        }
-    }
-}
-
-task show << {
-    println "-----------------------------------"
-    println "Loading build.gradle configuration..."
-    println ""
-    println "   _____               _ _          "
-    println "  / ____|             | | |         "
-    println " | |  __ _ __ __ _  __| | | ___     "
-    println " | | |_ | '__/ _` |/ _` | |/ _ \\    "
-    println " | |__| | | | (_| | (_| | |  __/    "
-    println "  \\_____|_|  \\__,_|\\__,_|_|\\___|    "
-    println ""
-    println "Build output: " + relativePath(compileJava.destinationDir)
-    println "Resources output: " + relativePath(processResources.destinationDir)
-    println "-----------------------------------"
-}
-

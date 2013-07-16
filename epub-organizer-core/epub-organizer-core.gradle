@@ -1,18 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'jacoco'
 
-repositories {
-    mavenCentral()
-
-    maven {
-        url "https://github.com/psiegman/mvn-repo/raw/master/releases"
-    }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.6'
-}
-
 jacocoTestReport {
     group = "Reporting"
     description = "Generate Jacoco coverage reports after running tests."
@@ -20,27 +8,31 @@ jacocoTestReport {
 }
 
 dependencies {
-    /** Common stuff */
-    compile 'com.google.guava:guava:14.0.1'
-    compile 'org.apache.commons:commons-lang3:3.1'
-    compile 'commons-io:commons-io:2.4'
-    compile 'ch.qos.logback:logback-classic:1.0.13'
+    
+    compile /** Common libraries */ (
+        'ch.qos.logback:logback-classic:1.0.13',
+        'com.codahale.metrics:metrics-core:3.0.0',
+        'com.google.guava:guava:14.0.1',
+        'commons-io:commons-io:2.4',        
+        'org.apache.commons:commons-lang3:3.1',
+        'org.jsoup:jsoup:1.7.2'
+    )
 
-    /** Morphia */
-    compile group: 'com.github.jmkgreen.morphia', name: 'morphia', version: '1.2.3'
-
-    /** Spring data */
-    compile 'org.springframework.data:spring-data-mongodb:1.2.0.RELEASE'
-    compile 'org.springframework:spring-test:3.1.4.RELEASE'
-    compile 'cglib:cglib-nodep:2.2'
-
-    /** Mongojack */
-    compile 'org.mongojack:mongojack:2.0.0-RC5'
-
-    /** Epub */
-    compile ('nl.siegmann.epublib:epublib-core:3.1') {
+    compile /* Morphia */ (
+        'com.github.jmkgreen.morphia:morphia:1.2.3'
+    )
+    
+    compile /** Spring data */ (
+        'org.springframework.data:spring-data-mongodb:1.2.0.RELEASE',
+        'org.springframework:spring-test:3.1.4.RELEASE',
+        'cglib:cglib-nodep:2.2'
+    )
+    
+    compile /** Mongojack */ (
+        'org.mongojack:mongojack:2.0.0-RC5'
+    )
+    
+    compile /** Epub */ ('nl.siegmann.epublib:epublib-core:3.1') {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
     }
-    compile 'com.codahale.metrics:metrics-core:3.0.0'
-    compile 'org.jsoup:jsoup:1.7.2'
 }
