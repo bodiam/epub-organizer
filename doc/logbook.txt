@@ -1,0 +1,3 @@
+17-07-2013: Added REST service for books
+    - http://spinscale.github.io/dropwizard/2012-03-intro.html#/10
+    - pretty print JSON: https://groups.google.com/forum/#!topic/dropwizard-user/dyaGnQfqGt8

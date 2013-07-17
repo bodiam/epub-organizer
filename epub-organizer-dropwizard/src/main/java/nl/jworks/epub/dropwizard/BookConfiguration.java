@@ -22,6 +22,9 @@ public class BookConfiguration extends Configuration {
     @NotEmpty
     public String mongodb = "epub";
 
+    @JsonProperty
+    public boolean prettyPrint = false;
+
     public String getMongodb() {
         return mongodb;
     }
@@ -32,5 +35,9 @@ public class BookConfiguration extends Configuration {
 
     public int getMongoport() {
         return mongoport;
+    }
+
+    public boolean getPrettyPrint() {
+        return prettyPrint;
     }
 }

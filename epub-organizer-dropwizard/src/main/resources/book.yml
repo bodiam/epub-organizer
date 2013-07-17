@@ -1,0 +1,4 @@
+mongohost: localhost
+mongoport: 27017
+mongodb: epub
+prettyPrint: true
